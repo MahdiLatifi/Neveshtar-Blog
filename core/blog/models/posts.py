@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.crypto import get_random_string
+
 from accounts.models import Profile
+from .categories import Category
 
 
 class Post(models.Model):
@@ -13,6 +15,7 @@ class Post(models.Model):
     short_code = models.CharField(max_length=20, unique=True, blank=True)
     published_at = models.DateTimeField()
     status = models.CharField(max_length=100, choices=(('draft', 'Draft'), ('published', 'Published')), default='draft')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     # comments
     # tags
 
