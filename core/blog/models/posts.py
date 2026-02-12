@@ -6,6 +6,7 @@ from accounts.models import Profile
 class Post(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
+    image = models.ImageField(default='images/post-1.jpg', upload_to='blog/')
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     estimated_reading_time = models.IntegerField()
     view_count = models.IntegerField(default=0)
@@ -20,6 +21,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def snippet_content(self):
+        return self.content[:25] + '...' if len(self.content) > 25 else self.content
 
     def get_unique_code(self, length):
         code = get_random_string(length=length)
