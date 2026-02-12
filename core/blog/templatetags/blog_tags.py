@@ -1,7 +1,7 @@
 from django import template
 from django.db.models import Count
 
-from ..models import Category
+from ..models import Category, Post
 
 register = template.Library()
 
@@ -17,3 +17,9 @@ def persian_int(english_int):
 def blog_categories():
     categories = Category.objects.annotate(posts_count=Count('post'))
     return {'categories': categories}
+
+
+@register.inclusion_tag('blog/latest_posts.html')
+def latest_posts():
+    latest_posts = Post.objects.filter(status='published').order_by('-published_at')[:3]
+    return {'latest_posts': latest_posts}
