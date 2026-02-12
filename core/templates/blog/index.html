@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
+{% load blog_tags %}
 
+{% block content %}
 
     <!-- Mobile Nav -->
     <div class="mobile-nav-overlay" onclick="toggleMobileNav()"></div>
@@ -32,49 +33,100 @@
         <!-- Hero -->
         <section class="hero">
             <div class="container">
-                <h1>📝 به دنیای نوشتار خوش آمدید</h1>
-                <p>مقالات تخصصی در حوزه تکنولوژی، برنامه‌نویسی و سبک زندگی. هر روز چیز جدیدی یاد بگیرید.</p>
-                <div class="hero-search">
-                    <input type="text" placeholder="دنبال چه مطلبی می‌گردید؟" id="heroSearchInput">
-                    <button id="heroSearchBtn">جستجو</button>
-                </div>
+                {% if not search_query %}
+                    <h1>📝 به دنیای نوشتار خوش آمدید</h1>
+                    <p>مقالات تخصصی در حوزه تکنولوژی، برنامه‌نویسی و سبک زندگی. هر روز چیز جدیدی یاد بگیرید.</p>
+                    <div class="hero-search">
+                        <input type="text" placeholder="دنبال چه مطلبی می‌گردید؟" id="heroSearchInput">
+                        <button id="heroSearchBtn">جستجو</button>
+                    </div>
+                {% else %}
+                    <h1 id="categoryTitle">🔍 نتایج جستجو: {{ search_query }}</h1>
+                    <p>تمام مطالب مرتبط با این دسته‌بندی</p>
+                {% endif %}
             </div>
         </section>
 
-        <!-- Featured Posts -->
-        <section class="featured">
-            <div class="container">
-                <h2 class="section-title">🔥 مطالب ویژه</h2>
-                <div class="featured-grid">
-                    <a href="post.html?id=0" class="featured-card">
-                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=700&h=400&fit=crop"
-                             alt="">
-                        <div class="overlay">
-                            <span class="cat">برنامه‌نویسی</span>
-                            <h3>راهنمای جامع شروع برنامه‌نویسی با پایتون در سال ۱۴۰۳</h3>
-                            <div class="meta">علی محمدی · ۱۵ آبان ۱۴۰۳ · ۱۲ دقیقه مطالعه</div>
-                        </div>
-                    </a>
-                    <a href="post.html?id=1" class="featured-card">
-                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=700&h=400&fit=crop"
-                             alt="">
-                        <div class="overlay">
-                            <span class="cat">تکنولوژی</span>
-                            <h3>آینده هوش مصنوعی و تأثیر آن بر زندگی روزمره</h3>
-                            <div class="meta">سارا احمدی · ۱۲ آبان ۱۴۰۳ · ۸ دقیقه مطالعه</div>
-                        </div>
-                    </a>
+        {% if not search_query %}
+            <!-- Featured Posts -->
+            <section class="featured">
+                <div class="container">
+                    <h2 class="section-title">🔥 مطالب ویژه</h2>
+                    <div class="featured-grid">
+                        <a href="post.html?id=0" class="featured-card">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=700&h=400&fit=crop"
+                                 alt="">
+                            <div class="overlay">
+                                <span class="cat">برنامه‌نویسی</span>
+                                <h3>راهنمای جامع شروع برنامه‌نویسی با پایتون در سال ۱۴۰۳</h3>
+                                <div class="meta">علی محمدی · ۱۵ آبان ۱۴۰۳ · ۱۲ دقیقه مطالعه</div>
+                            </div>
+                        </a>
+                        <a href="post.html?id=1" class="featured-card">
+                            <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=700&h=400&fit=crop"
+                                 alt="">
+                            <div class="overlay">
+                                <span class="cat">تکنولوژی</span>
+                                <h3>آینده هوش مصنوعی و تأثیر آن بر زندگی روزمره</h3>
+                                <div class="meta">سارا احمدی · ۱۲ آبان ۱۴۰۳ · ۸ دقیقه مطالعه</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        {% endif %}
 
         <!-- Main Content -->
         <section class="main-content">
             <div class="container">
                 <div class="content-grid">
-                    <div>
+                    {% if not search_query %}
+                        <div>
                         <h2 class="section-title">📰 آخرین مطالب</h2>
-                        <div id="postsList"></div>
+                    {% endif %}
+                    <div id="postsList">
+                        {% if posts %}
+                            {% for post in posts %}
+                                <a href="#" class="post-card post-card-horizontal">
+                                    <div class="post-thumb"><img
+                                            src="{{ post.image.url }}"
+                                            alt="{{ post.title }}"></div>
+                                    <div class="post-card-body"><span class="post-cat">{{ post.category.name }}</span>
+                                        <h3>{{ post.title }}</h3>
+                                        <p>{{ post.content|truncatechars:100 }}</p>
+                                        <div class="post-meta"><span class="author"><img
+                                                src="{{ post.user.image.url }}"
+                                                alt="">{{ post.user.full_name }}</span><span>📅 {{ post.published_at.date }}</span><span>⏱ {{ post.estimated_reading_time|persian_int }} دقیقه</span>
+                                        </div>
+                                        <div class="post-tags">
+                                            {% for tag in post.tags.all %}
+                                                <span class="post-tag">#{{ tag.name }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                            <div class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page={{ page_obj.previous_page_number }}">«</a>
+                                {% endif %}
+                                {% for i in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                        <span class="active">{{ i }}</span>
+                                    {% else %}
+                                        <a href="?page={{ i }}">{{ i }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}">»</a>
+                                {% endif %}
+                            </div>
+                            </div>
+                        {% else %}
+                            <div style="text-align:center;padding:60px;color:var(--text-light);"><h3>نتیجه‌ای یافت نشد
+                                😕</h3>
+                                <p>لطفاً عبارت دیگری را جستجو کنید.</p></div>
+                        {% endif %}
                     </div>
                     <aside class="sidebar">
                         <div class="widget about-widget">
@@ -86,34 +138,9 @@
                                 <a href="#">𝕏</a><a href="#">in</a><a href="#">📷</a><a href="#">✈️</a>
                             </div>
                         </div>
-                        <div class="widget">
-                            <h3 class="widget-title">📂 دسته‌بندی‌ها</h3>
-                            <ul class="cat-list">
-                                <li><a href="index.html?cat=تکنولوژی">تکنولوژی <span>۱۲</span></a></li>
-                                <li><a href="index.html?cat=برنامه‌نویسی">برنامه‌نویسی <span>۲۳</span></a></li>
-                                <li><a href="index.html?cat=سبک زندگی">سبک زندگی <span>۸</span></a></li>
-                                <li><a href="index.html?cat=آموزش">آموزش <span>۱۵</span></a></li>
-                                <li><a href="index.html?cat=کتاب">کتاب و مطالعه <span>۶</span></a></li>
-                                <li><a href="index.html?cat=سفر">سفر و گردشگری <span>۱۰</span></a></li>
-                            </ul>
-                        </div>
-                        <div class="widget">
-                            <h3 class="widget-title">🕐 مطالب اخیر</h3>
-                            <div id="recentPosts"></div>
-                        </div>
-                        <div class="widget">
-                            <h3 class="widget-title">🏷️ برچسب‌ها</h3>
-                            <div class="tags-cloud">
-                                <a href="index.html?search=پایتون">پایتون</a>
-                                <a href="index.html?search=جاوااسکریپت">جاوااسکریپت</a>
-                                <a href="index.html?search=جنگو">جنگو</a>
-                                <a href="index.html?search=ری‌اکت">ری‌اکت</a>
-                                <a href="index.html?search=هوش مصنوعی">هوش مصنوعی</a>
-                                <a href="index.html?search=وب">وب</a>
-                                <a href="index.html?search=گیت">گیت</a>
-                                <a href="index.html?search=کتاب">کتاب</a>
-                            </div>
-                        </div>
+                        {% blog_categories %}
+                        {% latest_posts %}
+                        {% tags %}
                         <div class="widget newsletter-widget">
                             <h3 class="widget-title">📬 خبرنامه</h3>
                             <p>آخرین مطالب و آموزش‌ها را مستقیم در ایمیل خود دریافت کنید.</p>
