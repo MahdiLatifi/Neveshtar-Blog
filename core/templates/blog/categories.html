@@ -1,0 +1,8 @@
+<div class="widget">
+    <h3 class="widget-title">📂 دسته‌بندی‌ها</h3>
+    <ul class="cat-list">
+        {% for cat in categories %}
+        <li><a href="index.html?cat=تکنولوژی">{{ cat.name }} <span>{{ cat.posts_count }}</span></a></li>
+        {% endfor %}
+    </ul>
+</div>
