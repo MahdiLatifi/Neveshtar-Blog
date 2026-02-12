@@ -1,0 +1,306 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نوشتار | وبلاگ شخصی</title>
+    <link href="{% static 'css/vazirmatn.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- Header Top -->
+    <div class="header-top">
+        <div class="container">
+            <div>✉️ info@neveshtaar.ir &nbsp;|&nbsp; 📞 ۰۲۱-۱۲۳۴۵۶۷۸</div>
+            <div class="socials">
+                <a href="#">اینستاگرام</a>
+                <a href="#">توییتر</a>
+                <a href="#">تلگرام</a>
+                <a href="#">لینکدین</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-main">
+            <div class="container">
+                <a href="index.html" class="logo">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    نوشتار<span>.</span>
+                </a>
+                <nav class="nav">
+                    <a href="index.html">خانه</a>
+                    <div class="nav-dropdown">
+                        <button class="dropdown-toggle">دسته‌بندی‌ها <span class="arrow">▾</span></button>
+                        <div class="dropdown-menu">
+                            <a href="index.html?cat=تکنولوژی">📱 تکنولوژی</a>
+                            <a href="index.html?cat=برنامه‌نویسی">💻 برنامه‌نویسی</a>
+                            <a href="index.html?cat=سبک زندگی">🌿 سبک زندگی</a>
+                            <a href="index.html?cat=آموزش">📚 آموزش</a>
+                            <a href="index.html?cat=کتاب">📖 کتاب و مطالعه</a>
+                            <a href="index.html?cat=سفر">✈️ سفر و گردشگری</a>
+                        </div>
+                    </div>
+                    <a href="about.html">درباره ما</a>
+                    <a href="contact.html">تماس</a>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="text" placeholder="جستجو..." id="searchInput">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    </div>
+                    <button class="theme-toggle" onclick="toggleTheme()" title="تغییر تم"><span class="theme-icon">🌙</span></button>
+                    <button class="btn btn-outline btn-sm" onclick="openModal('login')">ورود</button>
+                    <button class="btn btn-primary btn-sm" onclick="openModal('signup')">عضویت</button>
+                    <button class="mobile-menu-btn" onclick="toggleMobileNav()">☰</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav-overlay" onclick="toggleMobileNav()"></div>
+    <div class="mobile-nav">
+        <button class="close-nav" onclick="toggleMobileNav()">✕</button>
+        <a href="index.html">خانه</a>
+        <button class="mobile-dropdown-toggle" onclick="toggleMobileDropdown()">دسته‌بندی‌ها <span class="m-arrow">▾</span></button>
+        <div class="mobile-dropdown-menu" style="display:none;">
+            <a href="index.html?cat=تکنولوژی">📱 تکنولوژی</a>
+            <a href="index.html?cat=برنامه‌نویسی">💻 برنامه‌نویسی</a>
+            <a href="index.html?cat=سبک زندگی">🌿 سبک زندگی</a>
+            <a href="index.html?cat=آموزش">📚 آموزش</a>
+            <a href="index.html?cat=کتاب">📖 کتاب و مطالعه</a>
+        </div>
+        <a href="about.html">درباره ما</a>
+        <a href="contact.html">تماس</a>
+        <div style="margin-top: 20px; display: flex; gap: 8px; align-items: center;">
+            <button class="theme-toggle" onclick="toggleTheme()" style="width:36px;height:36px;font-size:15px;"><span class="theme-icon">🌙</span></button>
+            <button class="btn btn-outline btn-sm" onclick="openModal('login'); toggleMobileNav();">ورود</button>
+            <button class="btn btn-primary btn-sm" onclick="openModal('signup'); toggleMobileNav();">عضویت</button>
+        </div>
+    </div>
+
+    <!-- =================== HOME VIEW =================== -->
+    <div id="homeView">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container">
+                <h1>📝 به دنیای نوشتار خوش آمدید</h1>
+                <p>مقالات تخصصی در حوزه تکنولوژی، برنامه‌نویسی و سبک زندگی. هر روز چیز جدیدی یاد بگیرید.</p>
+                <div class="hero-search">
+                    <input type="text" placeholder="دنبال چه مطلبی می‌گردید؟" id="heroSearchInput">
+                    <button id="heroSearchBtn">جستجو</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Posts -->
+        <section class="featured">
+            <div class="container">
+                <h2 class="section-title">🔥 مطالب ویژه</h2>
+                <div class="featured-grid">
+                    <a href="post.html?id=0" class="featured-card">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=700&h=400&fit=crop" alt="">
+                        <div class="overlay">
+                            <span class="cat">برنامه‌نویسی</span>
+                            <h3>راهنمای جامع شروع برنامه‌نویسی با پایتون در سال ۱۴۰۳</h3>
+                            <div class="meta">علی محمدی · ۱۵ آبان ۱۴۰۳ · ۱۲ دقیقه مطالعه</div>
+                        </div>
+                    </a>
+                    <a href="post.html?id=1" class="featured-card">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=700&h=400&fit=crop" alt="">
+                        <div class="overlay">
+                            <span class="cat">تکنولوژی</span>
+                            <h3>آینده هوش مصنوعی و تأثیر آن بر زندگی روزمره</h3>
+                            <div class="meta">سارا احمدی · ۱۲ آبان ۱۴۰۳ · ۸ دقیقه مطالعه</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <section class="main-content">
+            <div class="container">
+                <div class="content-grid">
+                    <div>
+                        <h2 class="section-title">📰 آخرین مطالب</h2>
+                        <div id="postsList"></div>
+                    </div>
+                    <aside class="sidebar">
+                        <div class="widget about-widget">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop" alt="نویسنده">
+                            <h4>علی محمدی</h4>
+                            <p>توسعه‌دهنده وب و نویسنده مقالات تکنولوژی. عاشق یادگیری و اشتراک‌گذاری دانش.</p>
+                            <div class="about-socials">
+                                <a href="#">𝕏</a><a href="#">in</a><a href="#">📷</a><a href="#">✈️</a>
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <h3 class="widget-title">📂 دسته‌بندی‌ها</h3>
+                            <ul class="cat-list">
+                                <li><a href="index.html?cat=تکنولوژی">تکنولوژی <span>۱۲</span></a></li>
+                                <li><a href="index.html?cat=برنامه‌نویسی">برنامه‌نویسی <span>۲۳</span></a></li>
+                                <li><a href="index.html?cat=سبک زندگی">سبک زندگی <span>۸</span></a></li>
+                                <li><a href="index.html?cat=آموزش">آموزش <span>۱۵</span></a></li>
+                                <li><a href="index.html?cat=کتاب">کتاب و مطالعه <span>۶</span></a></li>
+                                <li><a href="index.html?cat=سفر">سفر و گردشگری <span>۱۰</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="widget">
+                            <h3 class="widget-title">🕐 مطالب اخیر</h3>
+                            <div id="recentPosts"></div>
+                        </div>
+                        <div class="widget">
+                            <h3 class="widget-title">🏷️ برچسب‌ها</h3>
+                            <div class="tags-cloud">
+                                <a href="index.html?search=پایتون">پایتون</a>
+                                <a href="index.html?search=جاوااسکریپت">جاوااسکریپت</a>
+                                <a href="index.html?search=جنگو">جنگو</a>
+                                <a href="index.html?search=ری‌اکت">ری‌اکت</a>
+                                <a href="index.html?search=هوش مصنوعی">هوش مصنوعی</a>
+                                <a href="index.html?search=وب">وب</a>
+                                <a href="index.html?search=گیت">گیت</a>
+                                <a href="index.html?search=کتاب">کتاب</a>
+                            </div>
+                        </div>
+                        <div class="widget newsletter-widget">
+                            <h3 class="widget-title">📬 خبرنامه</h3>
+                            <p>آخرین مطالب و آموزش‌ها را مستقیم در ایمیل خود دریافت کنید.</p>
+                            <input type="email" placeholder="ایمیل خود را وارد کنید..." id="sidebarEmail">
+                            <button onclick="subscribeNewsletter('sidebarEmail')">عضویت در خبرنامه</button>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- =================== CATEGORY VIEW =================== -->
+    <div id="categoryView" style="display:none;">
+        <div class="page-banner">
+            <div class="container">
+                <h1 id="categoryTitle">📂 دسته‌بندی</h1>
+                <p>تمام مطالب مرتبط با این دسته‌بندی</p>
+            </div>
+        </div>
+        <section class="main-content">
+            <div class="container">
+                <div class="content-grid">
+                    <div id="categoryPosts"></div>
+                    <aside class="sidebar">
+                        <div class="widget">
+                            <h3 class="widget-title">📂 دسته‌بندی‌ها</h3>
+                            <ul class="cat-list">
+                                <li><a href="index.html?cat=تکنولوژی">تکنولوژی <span>۱۲</span></a></li>
+                                <li><a href="index.html?cat=برنامه‌نویسی">برنامه‌نویسی <span>۲۳</span></a></li>
+                                <li><a href="index.html?cat=سبک زندگی">سبک زندگی <span>۸</span></a></li>
+                                <li><a href="index.html?cat=آموزش">آموزش <span>۱۵</span></a></li>
+                                <li><a href="index.html?cat=کتاب">کتاب و مطالعه <span>۶</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="widget newsletter-widget">
+                            <h3 class="widget-title">📬 خبرنامه</h3>
+                            <p>مطالب جدید را از دست ندهید!</p>
+                            <input type="email" placeholder="ایمیل خود..." id="catEmail">
+                            <button onclick="subscribeNewsletter('catEmail')">عضویت</button>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- =================== FOOTER =================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="color: white; margin-bottom: 14px; font-size: 24px;">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        نوشتار<span>.</span>
+                    </div>
+                    <p>نوشتار یک وبلاگ شخصی است که در آن مقالات تخصصی در حوزه‌های تکنولوژی، برنامه‌نویسی و سبک زندگی منتشر می‌شود.</p>
+                </div>
+                <div>
+                    <h4>لینک‌های مفید</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">خانه</a></li>
+                        <li><a href="about.html">درباره ما</a></li>
+                        <li><a href="contact.html">تماس با ما</a></li>
+                        <li><a href="#">حریم خصوصی</a></li>
+                        <li><a href="#">قوانین سایت</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>دسته‌بندی‌ها</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html?cat=تکنولوژی">تکنولوژی</a></li>
+                        <li><a href="index.html?cat=برنامه‌نویسی">برنامه‌نویسی</a></li>
+                        <li><a href="index.html?cat=سبک زندگی">سبک زندگی</a></li>
+                        <li><a href="index.html?cat=آموزش">آموزش</a></li>
+                        <li><a href="index.html?cat=کتاب">کتاب و مطالعه</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>عضویت در خبرنامه</h4>
+                    <p style="font-size:14px; margin-bottom:14px;">برای دریافت آخرین مطالب، ایمیل خود را وارد کنید.</p>
+                    <input type="email" placeholder="ایمیل شما..." id="footerEmail">
+                    <button class="btn btn-accent" style="width:100%;" onclick="subscribeNewsletter('footerEmail')">عضویت</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© ۱۴۰۳ نوشتار. تمامی حقوق محفوظ است.</span>
+                <span>طراحی و توسعه با ❤️ توسط علی محمدی</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('login')">✕</button>
+            <h2>👋 خوش آمدید</h2>
+            <p class="subtitle">وارد حساب کاربری خود شوید</p>
+            <div class="form-group"><label>ایمیل یا نام کاربری</label><input type="text" placeholder="ایمیل یا نام کاربری خود را وارد کنید"></div>
+            <div class="form-group"><label>رمز عبور</label><input type="password" placeholder="رمز عبور خود را وارد کنید"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <div class="checkbox-group"><input type="checkbox" id="remember"><label for="remember" style="font-size:13px;">مرا به خاطر بسپار</label></div>
+                <a href="#" style="font-size:13px; color:var(--primary);">فراموشی رمز عبور</a>
+            </div>
+            <button class="btn btn-primary btn-lg" style="width:100%;" onclick="doLogin()">ورود به حساب</button>
+            <div class="divider">یا</div>
+            <button class="btn btn-outline" style="width:100%; justify-content:center;" onclick="showToast('ورود با گوگل فعلاً در دسترس نیست', 'error')">🔵 ورود با حساب گوگل</button>
+            <div class="switch">حساب کاربری ندارید؟ <a onclick="closeModal('login'); openModal('signup');">ثبت‌نام کنید</a></div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal-overlay" id="signupModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('signup')">✕</button>
+            <h2>🚀 ثبت‌نام</h2>
+            <p class="subtitle">یک حساب کاربری جدید بسازید</p>
+            <div class="form-row">
+                <div class="form-group"><label>نام</label><input type="text" placeholder="نام"></div>
+                <div class="form-group"><label>نام خانوادگی</label><input type="text" placeholder="نام خانوادگی"></div>
+            </div>
+            <div class="form-group"><label>ایمیل</label><input type="email" placeholder="ایمیل خود را وارد کنید"></div>
+            <div class="form-group"><label>رمز عبور</label><input type="password" placeholder="حداقل ۸ کاراکتر"></div>
+            <div class="checkbox-group" style="margin-bottom:16px;"><input type="checkbox" id="terms"><label for="terms" style="font-size:13px;">با <a href="#" style="color:var(--primary);">قوانین و مقررات</a> سایت موافقم</label></div>
+            <button class="btn btn-primary btn-lg" style="width:100%;" onclick="doSignup()">ایجاد حساب کاربری</button>
+            <div class="switch">قبلاً ثبت‌نام کرده‌اید؟ <a onclick="closeModal('signup'); openModal('login');">وارد شوید</a></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
