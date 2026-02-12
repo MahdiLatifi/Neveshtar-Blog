@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Category
+from .models import Post, Category, Tag
 
 
 # Register your models here.
@@ -10,4 +10,8 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
     list_display = ('name',)

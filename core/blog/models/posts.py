@@ -17,7 +17,7 @@ class Post(models.Model):
     status = models.CharField(max_length=100, choices=(('draft', 'Draft'), ('published', 'Published')), default='draft')
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
     # comments
-    # tags
+    tags = models.ManyToManyField('Tag')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

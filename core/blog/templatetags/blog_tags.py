@@ -1,7 +1,7 @@
 from django import template
 from django.db.models import Count
 
-from ..models import Category, Post
+from ..models import Category, Post, Tag
 
 register = template.Library()
 
@@ -23,3 +23,9 @@ def blog_categories():
 def latest_posts():
     latest_posts = Post.objects.filter(status='published').order_by('-published_at')[:3]
     return {'latest_posts': latest_posts}
+
+
+@register.inclusion_tag('blog/blog_tags.html')
+def tags():
+    tags = Tag.objects.all()
+    return {'tags': tags}
