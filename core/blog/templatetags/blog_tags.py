@@ -24,6 +24,13 @@ def latest_posts():
     return {'latest_posts': latest_posts}
 
 
+
+@register.inclusion_tag('blog/featured_posts.html')
+def featured_posts():
+    featured_posts = Post.objects.filter(status='published', is_featured=True)[:2]
+    return {'featured_posts': featured_posts}
+
+
 @register.inclusion_tag('blog/blog_tags.html')
 def tags():
     tags = Tag.objects.all()

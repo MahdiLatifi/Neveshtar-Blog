@@ -33,32 +33,7 @@
         </section>
 
         {% if not search_query and not category_query and not tag_query %}
-            <!-- Featured Posts -->
-            <section class="featured">
-                <div class="container">
-                    <h2 class="section-title">🔥 مطالب ویژه</h2>
-                    <div class="featured-grid">
-                        <a href="post.html?id=0" class="featured-card">
-                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=700&h=400&fit=crop"
-                                 alt="">
-                            <div class="overlay">
-                                <span class="cat">برنامه‌نویسی</span>
-                                <h3>راهنمای جامع شروع برنامه‌نویسی با پایتون در سال ۱۴۰۳</h3>
-                                <div class="meta">علی محمدی · ۱۵ آبان ۱۴۰۳ · ۱۲ دقیقه مطالعه</div>
-                            </div>
-                        </a>
-                        <a href="post.html?id=1" class="featured-card">
-                            <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=700&h=400&fit=crop"
-                                 alt="">
-                            <div class="overlay">
-                                <span class="cat">تکنولوژی</span>
-                                <h3>آینده هوش مصنوعی و تأثیر آن بر زندگی روزمره</h3>
-                                <div class="meta">سارا احمدی · ۱۲ آبان ۱۴۰۳ · ۸ دقیقه مطالعه</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
+            {% featured_posts %}
         {% endif %}
 
         <!-- Main Content -->
