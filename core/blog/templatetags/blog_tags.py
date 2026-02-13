@@ -14,8 +14,7 @@ def persian_int(english_int):
 
 
 @register.inclusion_tag('blog/categories.html')
-def blog_categories():
-    categories = Category.objects.annotate(posts_count=Count('post'))
+def blog_categories(categories):
     return {'categories': categories}
 
 

@@ -126,6 +126,7 @@
                             <div style="text-align:center;padding:60px;color:var(--text-light);"><h3>نتیجه‌ای یافت نشد
                                 😕</h3>
                                 <p>لطفاً عبارت دیگری را جستجو کنید.</p></div>
+                            </div>
                         {% endif %}
                     </div>
                     <aside class="sidebar">
@@ -138,7 +139,7 @@
                                 <a href="#">𝕏</a><a href="#">in</a><a href="#">📷</a><a href="#">✈️</a>
                             </div>
                         </div>
-                        {% blog_categories %}
+                        {% blog_categories categories %}
                         {% latest_posts %}
                         {% tags %}
                         <div class="widget newsletter-widget">

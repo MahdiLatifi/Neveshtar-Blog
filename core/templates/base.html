@@ -23,12 +23,9 @@
                     <div class="nav-dropdown">
                         <button class="dropdown-toggle">دسته‌بندی‌ها <span class="arrow">▾</span></button>
                         <div class="dropdown-menu">
-                            <a href="index.html?cat=تکنولوژی">📱 تکنولوژی</a>
-                            <a href="index.html?cat=برنامه‌نویسی">💻 برنامه‌نویسی</a>
-                            <a href="index.html?cat=سبک زندگی">🌿 سبک زندگی</a>
-                            <a href="index.html?cat=آموزش">📚 آموزش</a>
-                            <a href="index.html?cat=کتاب">📖 کتاب و مطالعه</a>
-                            <a href="index.html?cat=سفر">✈️ سفر و گردشگری</a>
+                            {% for cat in categories %}
+                            <a href="?cat={{ cat.name }}">{{ cat.name }}</a>
+                            {% endfor %}
                         </div>
                     </div>
                     <a href="about.html">درباره ما</a>
