@@ -8,18 +8,16 @@
     <div class="mobile-nav-overlay" onclick="toggleMobileNav()"></div>
     <div class="mobile-nav">
         <button class="close-nav" onclick="toggleMobileNav()">✕</button>
-        <a href="index.html">خانه</a>
+        <a href="/">خانه</a>
         <button class="mobile-dropdown-toggle" onclick="toggleMobileDropdown()">دسته‌بندی‌ها <span
                 class="m-arrow">▾</span></button>
         <div class="mobile-dropdown-menu" style="display:none;">
-            <a href="index.html?cat=تکنولوژی">📱 تکنولوژی</a>
-            <a href="index.html?cat=برنامه‌نویسی">💻 برنامه‌نویسی</a>
-            <a href="index.html?cat=سبک زندگی">🌿 سبک زندگی</a>
-            <a href="index.html?cat=آموزش">📚 آموزش</a>
-            <a href="index.html?cat=کتاب">📖 کتاب و مطالعه</a>
+            {% for category in categories %}
+                <a href="/?cat={{ category.slug }}">{{ category.name }}</a>
+            {% endfor %}
         </div>
-        <a href="about.html">درباره ما</a>
-        <a href="contact.html">تماس</a>
+        <a href="/about/">درباره ما</a>
+        <a href="/contact/">تماس</a>
         <div style="margin-top: 20px; display: flex; gap: 8px; align-items: center;">
             <button class="theme-toggle" onclick="toggleTheme()" style="width:36px;height:36px;font-size:15px;"><span
                     class="theme-icon">🌙</span></button>
@@ -28,26 +26,30 @@
         </div>
     </div>
 
-    <!-- =================== HOME VIEW =================== -->
-    <div id="homeView">
+    <!-- Main View -->
+    <div id="mainView">
         <!-- Hero -->
         <section class="hero">
             <div class="container">
-                {% if not search_query %}
+                {% if search_query %}
+                    <h1 id="categoryTitle">🔍 نتایج جستجو: {{ search_query }}</h1>
+                    <p>تمام مطالب مرتبط با این دسته‌بندی</p>
+
+                {% elif category_query %}
+                    <h1 id="categoryTitle">📂 دسته‌بندی {{ category_query }}</h1>
+                    <p>تمام مطالب مرتبط با این دسته‌بندی</p>
+                {% else %}
                     <h1>📝 به دنیای نوشتار خوش آمدید</h1>
                     <p>مقالات تخصصی در حوزه تکنولوژی، برنامه‌نویسی و سبک زندگی. هر روز چیز جدیدی یاد بگیرید.</p>
                     <div class="hero-search">
                         <input type="text" placeholder="دنبال چه مطلبی می‌گردید؟" id="heroSearchInput">
                         <button id="heroSearchBtn">جستجو</button>
                     </div>
-                {% else %}
-                    <h1 id="categoryTitle">🔍 نتایج جستجو: {{ search_query }}</h1>
-                    <p>تمام مطالب مرتبط با این دسته‌بندی</p>
                 {% endif %}
             </div>
         </section>
 
-        {% if not search_query %}
+        {% if not search_query and not category_query %}
             <!-- Featured Posts -->
             <section class="featured">
                 <div class="container">
@@ -80,55 +82,70 @@
         <section class="main-content">
             <div class="container">
                 <div class="content-grid">
-                    {% if not search_query %}
-                        <div>
-                        <h2 class="section-title">📰 آخرین مطالب</h2>
-                    {% endif %}
-                    <div id="postsList">
-                        {% if posts %}
-                            {% for post in posts %}
-                                <a href="#" class="post-card post-card-horizontal">
-                                    <div class="post-thumb"><img
-                                            src="{{ post.image.url }}"
-                                            alt="{{ post.title }}"></div>
-                                    <div class="post-card-body"><span class="post-cat">{{ post.category.name }}</span>
-                                        <h3>{{ post.title }}</h3>
-                                        <p>{{ post.content|truncatechars:100 }}</p>
-                                        <div class="post-meta"><span class="author"><img
-                                                src="{{ post.user.image.url }}"
-                                                alt="">{{ post.user.full_name }}</span><span>📅 {{ post.published_at.date }}</span><span>⏱ {{ post.estimated_reading_time|persian_int }} دقیقه</span>
-                                        </div>
-                                        <div class="post-tags">
-                                            {% for tag in post.tags.all %}
-                                                <span class="post-tag">#{{ tag.name }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </a>
-                            {% endfor %}
-                            <div class="pagination">
-                                {% if page_obj.has_previous %}
-                                    <a href="?page={{ page_obj.previous_page_number }}">«</a>
-                                {% endif %}
-                                {% for i in page_obj.paginator.page_range %}
-                                    {% if page_obj.number == i %}
-                                        <span class="active">{{ i }}</span>
-                                    {% else %}
-                                        <a href="?page={{ i }}">{{ i }}</a>
-                                    {% endif %}
-                                {% endfor %}
-                                {% if page_obj.has_next %}
-                                    <a href="?page={{ page_obj.next_page_number }}">»</a>
-                                {% endif %}
-                            </div>
-                            </div>
+                    <div>
+                        {% if category_query %}
+                            <h2 class="section-title">📄 مطالب دسته «{{ category_query }}»</h2>
+                        {% elif search_query %}
+                            <h2 class="section-title">📄 مطالب جستجو «{{ search_query }}»</h2>
                         {% else %}
-                            <div style="text-align:center;padding:60px;color:var(--text-light);"><h3>نتیجه‌ای یافت نشد
-                                😕</h3>
-                                <p>لطفاً عبارت دیگری را جستجو کنید.</p></div>
-                            </div>
+                            <h2 class="section-title">📰 آخرین مطالب</h2>
+
                         {% endif %}
+
+                        <div id="postsList">
+                            {% if posts %}
+                                {% for post in posts %}
+                                    <a href="/post/{{ post.id }}/" class="post-card post-card-horizontal">
+                                        <div class="post-thumb"><img src="{{ post.image.url }}" alt="{{ post.title }}">
+                                        </div>
+                                        <div class="post-card-body">
+                                            <span class="post-cat">{{ post.category.name }}</span>
+                                            <h3>{{ post.title }}</h3>
+                                            <p>{{ post.content|truncatechars:100 }}</p>
+                                            <div class="post-meta">
+                                                <span class="author"><img src="{{ post.user.image.url }}"
+                                                                          alt="">{{ post.user.full_name }}</span>
+                                                <span>📅 {{ post.published_at|date:"j M Y" }}</span>
+                                                <span>⏱ {{ post.estimated_reading_time|persian_int }} دقیقه</span>
+                                            </div>
+                                            <div class="post-tags">
+                                                {% for tag in post.tags.all %}
+                                                    <span class="post-tag">#{{ tag.name }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+
+                                <!-- Pagination -->
+                                <div class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <a href="?page=
+                                                {{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query.slug }}{% endif %}">«</a>
+                                    {% endif %}
+                                    {% for i in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == i %}
+                                            <span class="active">{{ i }}</span>
+                                        {% else %}
+                                            <a href="?page=
+                                                    {{ i }}{% if category_query %}&cat={{ category_query.slug }}{% endif %}">{{ i }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                        <a href="?page=
+                                                {{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query.slug }}{% endif %}">»</a>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div style="text-align:center;padding:60px;color:var(--text-light);">
+                                    <h3>نتیجه‌ای یافت نشد 😕</h3>
+                                    <p>لطفاً عبارت دیگری را جستجو کنید.</p>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
+
+                    <!-- Sidebar -->
                     <aside class="sidebar">
                         <div class="widget about-widget">
                             <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop"
@@ -139,49 +156,18 @@
                                 <a href="#">𝕏</a><a href="#">in</a><a href="#">📷</a><a href="#">✈️</a>
                             </div>
                         </div>
+
                         {% blog_categories categories %}
+
                         {% latest_posts %}
+
                         {% tags %}
+
                         <div class="widget newsletter-widget">
                             <h3 class="widget-title">📬 خبرنامه</h3>
                             <p>آخرین مطالب و آموزش‌ها را مستقیم در ایمیل خود دریافت کنید.</p>
                             <input type="email" placeholder="ایمیل خود را وارد کنید..." id="sidebarEmail">
                             <button onclick="subscribeNewsletter('sidebarEmail')">عضویت در خبرنامه</button>
-                        </div>
-                    </aside>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- =================== CATEGORY VIEW =================== -->
-    <div id="categoryView" style="display:none;">
-        <div class="page-banner">
-            <div class="container">
-                <h1 id="categoryTitle">📂 دسته‌بندی</h1>
-                <p>تمام مطالب مرتبط با این دسته‌بندی</p>
-            </div>
-        </div>
-        <section class="main-content">
-            <div class="container">
-                <div class="content-grid">
-                    <div id="categoryPosts"></div>
-                    <aside class="sidebar">
-                        <div class="widget">
-                            <h3 class="widget-title">📂 دسته‌بندی‌ها</h3>
-                            <ul class="cat-list">
-                                <li><a href="index.html?cat=تکنولوژی">تکنولوژی <span>۱۲</span></a></li>
-                                <li><a href="index.html?cat=برنامه‌نویسی">برنامه‌نویسی <span>۲۳</span></a></li>
-                                <li><a href="index.html?cat=سبک زندگی">سبک زندگی <span>۸</span></a></li>
-                                <li><a href="index.html?cat=آموزش">آموزش <span>۱۵</span></a></li>
-                                <li><a href="index.html?cat=کتاب">کتاب و مطالعه <span>۶</span></a></li>
-                            </ul>
-                        </div>
-                        <div class="widget newsletter-widget">
-                            <h3 class="widget-title">📬 خبرنامه</h3>
-                            <p>مطالب جدید را از دست ندهید!</p>
-                            <input type="email" placeholder="ایمیل خود..." id="catEmail">
-                            <button onclick="subscribeNewsletter('catEmail')">عضویت</button>
                         </div>
                     </aside>
                 </div>
