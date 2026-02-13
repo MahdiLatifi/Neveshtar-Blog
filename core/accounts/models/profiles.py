@@ -10,6 +10,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=255)
     image = models.ImageField(null=True, blank=True)
     description = models.TextField()
+    is_main_writer = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

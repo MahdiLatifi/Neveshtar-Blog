@@ -2,6 +2,7 @@ from django import template
 from django.db.models import Count
 
 from ..models import Category, Post, Tag
+from accounts.models import Profile
 
 register = template.Library()
 
@@ -35,3 +36,8 @@ def featured_posts():
 def tags():
     tags = Tag.objects.all()
     return {'tags': tags}
+
+@register.inclusion_tag('blog/blog_writer.html')
+def blog_writer():
+    blog_writer = Profile.objects.filter(is_main_writer=True).first()
+    return {'blog_writer': blog_writer}
