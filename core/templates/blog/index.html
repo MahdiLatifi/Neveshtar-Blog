@@ -4,28 +4,6 @@
 
 {% block content %}
 
-    <!-- Mobile Nav -->
-    <div class="mobile-nav-overlay" onclick="toggleMobileNav()"></div>
-    <div class="mobile-nav">
-        <button class="close-nav" onclick="toggleMobileNav()">✕</button>
-        <a href="/">خانه</a>
-        <button class="mobile-dropdown-toggle" onclick="toggleMobileDropdown()">دسته‌بندی‌ها <span
-                class="m-arrow">▾</span></button>
-        <div class="mobile-dropdown-menu" style="display:none;">
-            {% for category in categories %}
-                <a href="/?cat={{ category.slug }}">{{ category.name }}</a>
-            {% endfor %}
-        </div>
-        <a href="/about/">درباره ما</a>
-        <a href="/contact/">تماس</a>
-        <div style="margin-top: 20px; display: flex; gap: 8px; align-items: center;">
-            <button class="theme-toggle" onclick="toggleTheme()" style="width:36px;height:36px;font-size:15px;"><span
-                    class="theme-icon">🌙</span></button>
-            <button class="btn btn-outline btn-sm" onclick="openModal('login'); toggleMobileNav();">ورود</button>
-            <button class="btn btn-primary btn-sm" onclick="openModal('signup'); toggleMobileNav();">عضویت</button>
-        </div>
-    </div>
-
     <!-- Main View -->
     <div id="mainView">
         <!-- Hero -->
@@ -120,15 +98,13 @@
                                 <!-- Pagination -->
                                 <div class="pagination">
                                     {% if page_obj.has_previous %}
-                                        <a href="?page=
-                                                {{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query.slug }}{% endif %}">«</a>
+                                        <a href="?page={{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">«</a>
                                     {% endif %}
                                     {% for i in page_obj.paginator.page_range %}
                                         {% if page_obj.number == i %}
                                             <span class="active">{{ i }}</span>
                                         {% else %}
-                                            <a href="?page=
-                                                    {{ i }}{% if category_query %}&cat={{ category_query.slug }}{% endif %}">{{ i }}</a>
+                                            <a href="?page={{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">{{ i }}</a>
                                         {% endif %}
                                     {% endfor %}
                                     {% if page_obj.has_next %}
