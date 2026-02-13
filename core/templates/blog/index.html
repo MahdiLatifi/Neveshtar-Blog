@@ -16,6 +16,11 @@
                 {% elif category_query %}
                     <h1 id="categoryTitle">📂 دسته‌بندی {{ category_query }}</h1>
                     <p>تمام مطالب مرتبط با این دسته‌بندی</p>
+
+                {% elif tag_query %}
+                    <h1 id="categoryTitle">🏷️ برچسب‌ {{ tag_query }}</h1>
+                    <p>تمام مطالب مرتبط با این برچسب‌</p>
+
                 {% else %}
                     <h1>📝 به دنیای نوشتار خوش آمدید</h1>
                     <p>مقالات تخصصی در حوزه تکنولوژی، برنامه‌نویسی و سبک زندگی. هر روز چیز جدیدی یاد بگیرید.</p>
@@ -27,7 +32,7 @@
             </div>
         </section>
 
-        {% if not search_query and not category_query %}
+        {% if not search_query and not category_query and not tag_query %}
             <!-- Featured Posts -->
             <section class="featured">
                 <div class="container">
@@ -65,6 +70,8 @@
                             <h2 class="section-title">📄 مطالب دسته «{{ category_query }}»</h2>
                         {% elif search_query %}
                             <h2 class="section-title">📄 مطالب جستجو «{{ search_query }}»</h2>
+                        {% elif tag_query %}
+                            <h2 class="section-title">📄 مطالب برچسب‌ «{{ tag_query }}»</h2>
                         {% else %}
                             <h2 class="section-title">📰 آخرین مطالب</h2>
 
@@ -98,18 +105,18 @@
                                 <!-- Pagination -->
                                 <div class="pagination">
                                     {% if page_obj.has_previous %}
-                                        <a href="?page={{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">«</a>
+                                        <a href="?page={{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">«</a>
                                     {% endif %}
                                     {% for i in page_obj.paginator.page_range %}
                                         {% if page_obj.number == i %}
                                             <span class="active">{{ i }}</span>
                                         {% else %}
-                                            <a href="?page={{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}">{{ i }}</a>
+                                            <a href="?page={{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">{{ i }}</a>
                                         {% endif %}
                                     {% endfor %}
                                     {% if page_obj.has_next %}
                                         <a href="?page=
-                                                {{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query.slug }}{% endif %}">»</a>
+                                                {{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">»</a>
                                     {% endif %}
                                 </div>
                             {% else %}

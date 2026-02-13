@@ -9,7 +9,7 @@ from .models import Post, Category
 class IndexView(ListView):
     template_name = 'blog/index.html'
     context_object_name = 'posts'
-    paginate_by = 6
+    paginate_by = 1
 
     def get_queryset(self):
         queryset = Post.objects.filter(status='published').order_by('-published_at')
@@ -27,11 +27,18 @@ class IndexView(ListView):
                 category__name=category_query
             )
 
+        tag_query = self.request.GET.get('tag')
+        if tag_query:
+            queryset = queryset.filter(
+                tags__name=tag_query
+            )
+
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['search_query'] = self.request.GET.get('search', '')
         context['category_query'] = self.request.GET.get('cat', '')
+        context['tag_query'] = self.request.GET.get('tag', '')
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
         return context
