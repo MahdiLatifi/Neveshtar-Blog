@@ -40,7 +40,7 @@
                     <div class="short-url-section">
                         <div class="url-label">🔗 لینک کوتاه:</div>
                         <div class="url-input-group">
-                            <input type="text" id="shortUrlInput" value="localhost/p/{{ post.short_code }}" readonly>
+                            <input type="text" id="shortUrlInput" value="{{ request.get_host }}{% url 'redirect-to-real-url' short_code=post.short_code %}" readonly>
                             <button onclick="copyShortUrl()">📋 کپی</button>
                         </div>
                     </div>

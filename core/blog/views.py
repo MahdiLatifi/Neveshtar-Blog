@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, reverse, get_object_or_404
+from django.views.generic import ListView, DetailView, RedirectView
 from django.views.decorators.http import require_POST
 from django.http.response import JsonResponse
 from django.db.models import Count, Q
@@ -77,3 +77,9 @@ def newsletter_subscribe(request):
         'success': False,
         'errors': form.errors
     }, status=400)
+
+
+class RedirectToRealURLView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        post = get_object_or_404(Post, short_code=self.kwargs['short_code'])
+        return reverse('post-detail', kwargs={'slug': post.slug})

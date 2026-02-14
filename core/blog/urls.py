@@ -20,4 +20,5 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('post/<unicode_slug:slug>/', views.PostDetailView.as_view(), name='post-detail'),
     path('newsletter/subscribe/', views.newsletter_subscribe, name='newsletter-subscribe'),
+    path('p/<str:short_code>/', views.RedirectToRealURLView.as_view(), name='redirect-to-real-url'),
 ]
