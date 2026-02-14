@@ -104,16 +104,7 @@
                     </div>
 
                     <!-- Sidebar -->
-                    <aside class="sidebar">
-                        {% blog_writer %}
-
-                        {% blog_categories categories %}
-
-                        {% latest_posts %}
-
-                        {% tags %}
-
-                    </aside>
+                    {% include 'blog/includes/sidebar.html' %}
                 </div>
             </div>
         </section>
