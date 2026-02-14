@@ -4,9 +4,9 @@
         <h2 class="section-title">🔥 مطالب ویژه</h2>
         <div class="featured-grid">
             {% for post in featured_posts %}
-            <a href="post.html?id=0" class="featured-card">
+            <a href="{% url 'post-detail' slug=post.slug %}" class="featured-card">
                 <img src="{{ post.image.url }}"
-                     alt="">
+                     alt="{{ post.title }}">
                 <div class="overlay">
                     <span class="cat">{{ post.category.name }}</span>
                     <h3>{{ post.title }}</h3>

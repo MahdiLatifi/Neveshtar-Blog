@@ -2,9 +2,9 @@
     <h3 class="widget-title">🕐 مطالب اخیر</h3>
     <div id="recentPosts">
         {% for post in latest_posts %}
-        <div class="recent-post"><a href="post.html?id=0"><img
+        <div class="recent-post"><a href="{% url 'post-detail' slug=post.slug %}"><img
                 src="{{ post.image.url }}"
-                alt="">
+                alt="{{ post.title }}">
             <div><h4>{{ post.title|truncatechars:50 }}</h4>
                 <div class="date">📅 {{ post.published_at }}</div>
             </div>

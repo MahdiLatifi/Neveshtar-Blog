@@ -52,10 +52,14 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post.html'
     context_object_name = 'post'
-    extra_context = {'categories': Category.objects.annotate(posts_count=Count('post'))}
 
     def get_queryset(self):
         return super().get_queryset().filter(status='published')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.annotate(posts_count=Count('post'))
+        return context
 
 
 @require_POST

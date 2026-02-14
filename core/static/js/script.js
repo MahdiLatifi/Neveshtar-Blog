@@ -411,7 +411,7 @@ $(document).ready(function() {
     $('#searchInput, #heroSearchInput').on('keyup', function(e) {
         if (e.key === 'Enter') {
             var q = $(this).val().trim();
-            if (q) window.location.href = '?search=' + encodeURIComponent(q);
+            if (q) window.location.href = `${BASE_URL}?search=` + encodeURIComponent(q);
         }
     });
 

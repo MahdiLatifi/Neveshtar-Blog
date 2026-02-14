@@ -2,7 +2,7 @@
     <h3 class="widget-title">📂 دسته‌بندی‌ها</h3>
     <ul class="cat-list">
         {% for cat in categories %}
-        <li><a href="?cat={{ cat.name }}">{{ cat.name }} <span>{{ cat.posts_count }}</span></a></li>
+        <li><a href="{% url 'index' %}?cat={{ cat.name }}">{{ cat.name }} <span>{{ cat.posts_count }}</span></a></li>
         {% endfor %}
     </ul>
 </div>
