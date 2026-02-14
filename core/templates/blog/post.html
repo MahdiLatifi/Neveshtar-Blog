@@ -78,12 +78,11 @@
 
                     <!-- Author Box -->
                     <div class="author-box">
-                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop"
-                             alt="">
+                        <img src="{{ post.user.image.url }}"
+                             alt="{{ post.user.full_name }}">
                         <div>
-                            <h4 id="authorBoxName">علی محمدی</h4>
-                            <p>توسعه‌دهنده ارشد وب با بیش از ۸ سال تجربه. علاقه‌مند به آموزش و اشتراک‌گذاری تجربیات در
-                                دنیای تکنولوژی. نویسنده بیش از ۲۰۰ مقاله فنی و تخصصی.</p>
+                            <h4 id="authorBoxName">{{ post.user.full_name }}</h4>
+                            <p>{{ post.user.description }}</p>
                         </div>
                     </div>
 
