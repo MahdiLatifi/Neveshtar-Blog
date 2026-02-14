@@ -9,7 +9,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     image = models.ImageField(default='images/post-1.jpg', upload_to='blog/')
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, editable=False)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     estimated_reading_time = models.IntegerField()
     view_count = models.IntegerField(default=0)
@@ -39,7 +39,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.short_code:
-            self.short_code = self.get_unique_code(15)
+            self.short_code = self.get_unique_code(10)
 
         if not self.slug:
             self.slug = slugify(self.title, allow_unicode=True)

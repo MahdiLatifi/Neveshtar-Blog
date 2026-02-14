@@ -52,6 +52,7 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post.html'
     context_object_name = 'post'
+    extra_context = {'categories': Category.objects.annotate(posts_count=Count('post'))}
 
 
 @require_POST

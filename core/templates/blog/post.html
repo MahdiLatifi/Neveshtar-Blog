@@ -11,42 +11,50 @@
                     <!-- Breadcrumb -->
                     <div class="detail-header">
                         <div class="detail-breadcrumb">
-                            <a href="index.html">خانه</a> / <a href="#" id="detailCatLink">دسته‌بندی</a> / <span
-                                id="detailBreadTitle">عنوان</span>
+                            <a href="{% url 'index' %}">خانه</a> / <a
+                                href="{% url 'index' %}?cat={{ post.category.name }}"
+                                id="detailCatLink">{{ post.category.name }}</a> / <span
+                                id="detailBreadTitle">{{ post.user.full_name }}</span>
                         </div>
-                        <h1 id="detailTitle">عنوان مطلب</h1>
+                        <h1 id="detailTitle">{{ post.title }}</h1>
                         <div class="detail-meta">
                             <div class="author-info">
-                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop"
-                                     alt="">
+                                <img src="{{ post.user.image.url }}"
+                                     alt="{{ post.title }}">
                                 <div>
-                                    <strong id="detailAuthor">نویسنده</strong>
-                                    <div id="detailDate" style="font-size:12px; color:var(--text-lighter);">تاریخ</div>
+                                    <strong id="detailAuthor">{{ post.user.full_name }}</strong>
+                                    <div id="detailDate"
+                                         style="font-size:12px; color:var(--text-lighter);">{{ post.published_at }}</div>
                                 </div>
                             </div>
-                            <span>⏱ <span id="detailReadTime">۱۰</span> دقیقه مطالعه</span>
-                            <span>👁 <span id="detailViews">۱,۲۳۴</span> بازدید</span>
+                            <span>⏱ <span id="detailReadTime">{{ post.estimated_reading_time|persian_int }}</span> دقیقه مطالعه</span>
+                            <span>👁 <span id="detailViews">{{ post.view_count|persian_int }}</span> بازدید</span>
                             <span>💬 <span id="detailCommentCount">۵</span> نظر</span>
                         </div>
                     </div>
 
                     <!-- Cover -->
-                    <img class="detail-cover" id="detailCover" src="" alt="">
+                    <img class="detail-cover" id="detailCover" src="{{ post.image.url }}" alt="{{ post.title }}">
 
                     <!-- Short URL -->
                     <div class="short-url-section">
                         <div class="url-label">🔗 لینک کوتاه:</div>
                         <div class="url-input-group">
-                            <input type="text" id="shortUrlInput" value="" readonly>
+                            <input type="text" id="shortUrlInput" value="localhost/p/{{ post.short_code }}" readonly>
                             <button onclick="copyShortUrl()">📋 کپی</button>
                         </div>
                     </div>
 
                     <!-- Content -->
-                    <div class="detail-content" id="detailContent"></div>
+                    <div class="detail-content" id="detailContent">{{ post.content|safe }}</div>
 
                     <!-- Tags -->
-                    <div class="detail-tags" id="detailTags"></div>
+                    <div class="detail-tags" id="detailTags"><span>🏷️ برچسب‌ها:</span>
+                        {% for tag in post.tags.all %}
+                            <a href="{% url 'index' %}?tag={{ tag.name }}"
+                               class="post-tag">#{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
 
                     <!-- Share -->
                     <div class="detail-share">
@@ -101,38 +109,7 @@
                 </div>
 
                 <!-- Sidebar -->
-                <aside class="sidebar">
-                    <div class="widget">
-                        <h3 class="widget-title">📂 دسته‌بندی‌ها</h3>
-                        <ul class="cat-list">
-                            <li><a href="index.html?cat=تکنولوژی">تکنولوژی <span>۱۲</span></a></li>
-                            <li><a href="index.html?cat=برنامه‌نویسی">برنامه‌نویسی <span>۲۳</span></a></li>
-                            <li><a href="index.html?cat=سبک زندگی">سبک زندگی <span>۸</span></a></li>
-                            <li><a href="index.html?cat=آموزش">آموزش <span>۱۵</span></a></li>
-                        </ul>
-                    </div>
-                    <div class="widget">
-                        <h3 class="widget-title">🕐 مطالب اخیر</h3>
-                        <div id="detailRecentPosts"></div>
-                    </div>
-                    <div class="widget">
-                        <h3 class="widget-title">🏷️ برچسب‌ها</h3>
-                        <div class="tags-cloud">
-                            <a href="index.html?search=پایتون">پایتون</a>
-                            <a href="index.html?search=جاوااسکریپت">جاوااسکریپت</a>
-                            <a href="index.html?search=جنگو">جنگو</a>
-                            <a href="index.html?search=هوش مصنوعی">هوش مصنوعی</a>
-                            <a href="index.html?search=وب">وب</a>
-                            <a href="index.html?search=گیت">گیت</a>
-                        </div>
-                    </div>
-                    <div class="widget newsletter-widget">
-                        <h3 class="widget-title">📬 خبرنامه</h3>
-                        <p>مطالب جدید را از دست ندهید!</p>
-                        <input type="email" placeholder="ایمیل خود را وارد کنید..." id="detailEmail">
-                        <button onclick="subscribeNewsletter('detailEmail')">عضویت</button>
-                    </div>
-                </aside>
+                {% include 'blog/includes/sidebar.html' %}
             </div>
         </div>
     </section>
