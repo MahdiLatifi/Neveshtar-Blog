@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse, get_object_or_404
-from django.views.generic import ListView, DetailView, RedirectView
+from django.views.generic import ListView, DetailView, RedirectView, TemplateView
 from django.views.decorators.http import require_POST
 from django.http.response import JsonResponse
 from django.db.models import Count, Q
@@ -7,6 +7,7 @@ from django.db import IntegrityError
 
 from .models import Post, Category
 from .forms import NewsletterForm
+from accounts.models import Profile
 
 
 # Create your views here.
@@ -90,3 +91,13 @@ class RedirectToRealURLView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         post = get_object_or_404(Post, short_code=self.kwargs['short_code'])
         return reverse('post-detail', kwargs={'slug': post.slug})
+
+
+class AboutView(TemplateView):
+    template_name = 'blog/about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['blog_writer'] = Profile.objects.filter(is_main_writer=True).first()
+        context['categories'] = Category.objects.annotate(posts_count=Count('post'))
+        return context

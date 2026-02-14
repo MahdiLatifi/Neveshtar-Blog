@@ -28,7 +28,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <a href="about.html">درباره ما</a>
+                    <a href="{% url 'about' %}">درباره ما</a>
                     <a href="contact.html">تماس</a>
                 </nav>
                 <div class="header-actions">
@@ -63,7 +63,7 @@
                     <h4>لینک‌های مفید</h4>
                     <ul class="footer-links">
                         <li><a href="{% url 'index' %}">خانه</a></li>
-                        <li><a href="about.html">درباره ما</a></li>
+                        <li><a href="{% url 'about' %}">درباره ما</a></li>
                         <li><a href="contact.html">تماس با ما</a></li>
                         <li><a href="#">حریم خصوصی</a></li>
                         <li><a href="#">قوانین سایت</a></li>
