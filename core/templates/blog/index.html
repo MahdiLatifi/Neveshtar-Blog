@@ -55,7 +55,7 @@
                         <div id="postsList">
                             {% if posts %}
                                 {% for post in posts %}
-                                    <a href="/post/{{ post.id }}/" class="post-card post-card-horizontal">
+                                    <a href="{% url 'post-detail' slug=post.slug %}" class="post-card post-card-horizontal">
                                         <div class="post-thumb"><img src="{{ post.image.url }}" alt="{{ post.title }}">
                                         </div>
                                         <div class="post-card-body">

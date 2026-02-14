@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.decorators.http import require_POST
 from django.http.response import JsonResponse
 from django.db.models import Count, Q
@@ -46,6 +46,12 @@ class IndexView(ListView):
         context['tag_query'] = self.request.GET.get('tag', '')
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
         return context
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/post.html'
+    context_object_name = 'post'
 
 
 @require_POST
