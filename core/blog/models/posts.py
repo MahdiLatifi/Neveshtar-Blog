@@ -1,14 +1,15 @@
 from django.db import models
 from django.utils.crypto import get_random_string
+from django.utils.text import slugify
 
 from accounts.models import Profile
-# from .categories import Category
 
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     image = models.ImageField(default='images/post-1.jpg', upload_to='blog/')
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     estimated_reading_time = models.IntegerField()
     view_count = models.IntegerField(default=0)
@@ -39,4 +40,14 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if not self.short_code:
             self.short_code = self.get_unique_code(15)
+
+        if not self.slug:
+            self.slug = slugify(self.title, allow_unicode=True)
+
+            # Ensure slug is unique
+            original_slug = self.slug
+            counter = 1
+            while self.__class__.objects.filter(slug=self.slug).exists():
+                self.slug = f"{original_slug}-{counter}"
+                counter += 1
         return super().save(*args, **kwargs)
