@@ -40,7 +40,9 @@
                     <div class="short-url-section">
                         <div class="url-label">🔗 لینک کوتاه:</div>
                         <div class="url-input-group">
-                            <input type="text" id="shortUrlInput" value="{{ request.get_host }}{% url 'redirect-to-real-url' short_code=post.short_code %}" readonly>
+                            <input type="text" id="shortUrlInput"
+                                   value="{% absolute_url 'redirect-to-real-url' short_code=post.short_code %}"
+                                   readonly>
                             <button onclick="copyShortUrl()">📋 کپی</button>
                         </div>
                     </div>
@@ -59,9 +61,18 @@
                     <!-- Share -->
                     <div class="detail-share">
                         <span>اشتراک‌گذاری:</span>
-                        <button class="share-btn" title="توییتر">𝕏</button>
-                        <button class="share-btn" title="تلگرام">✈️</button>
-                        <button class="share-btn" title="لینکدین">in</button>
+                        <a href="https://twitter.com/share?text={{ post.title }}&url={% absolute_url 'redirect-to-real-url' short_code=post.short_code %}"
+                           target="_blank">
+                            <button class="share-btn" title="توییتر">𝕏</button>
+                        </a>
+                        <a href="https://telegram.me/share/?url={% absolute_url 'redirect-to-real-url' short_code=post.short_code %}"
+                           target="_blank">
+                            <button class="share-btn" title="تلگرام">✈️</button>
+                        </a>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={% absolute_url 'redirect-to-real-url' short_code=post.short_code %}"
+                           target="_blank">
+                            <button class="share-btn" title="لینکدین">in</button>
+                        </a>
                         <button class="share-btn" title="کپی لینک" onclick="copyShortUrl()">🔗</button>
                     </div>
 

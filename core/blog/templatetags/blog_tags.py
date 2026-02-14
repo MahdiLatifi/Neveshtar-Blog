@@ -1,5 +1,6 @@
 from django import template
 from django.db.models import Count
+from django.shortcuts import reverse
 
 from ..models import Category, Post, Tag
 from accounts.models import Profile
@@ -41,3 +42,10 @@ def tags():
 def blog_writer():
     blog_writer = Profile.objects.filter(is_main_writer=True).first()
     return {'blog_writer': blog_writer}
+
+
+@register.simple_tag(takes_context=True)
+def absolute_url(context, view_name, *args, **kwargs):
+    request = context['request']
+    relative_path = reverse(view_name, args=args, kwargs=kwargs)
+    return request.build_absolute_uri(relative_path)
