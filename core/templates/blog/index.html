@@ -61,7 +61,7 @@
                                         <div class="post-card-body">
                                             <span class="post-cat">{{ post.category.name }}</span>
                                             <h3>{{ post.title }}</h3>
-                                            <p>{{ post.content|truncatechars:100 }}</p>
+                                            <p>{{ post.content|truncatechars:100|safe }}</p>
                                             <div class="post-meta">
                                                 <span class="author"><img src="{{ post.user.image.url }}"
                                                                           alt="">{{ post.user.full_name }}</span>

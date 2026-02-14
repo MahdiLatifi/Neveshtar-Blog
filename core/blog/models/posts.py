@@ -51,3 +51,7 @@ class Post(models.Model):
                 self.slug = f"{original_slug}-{counter}"
                 counter += 1
         return super().save(*args, **kwargs)
+
+    def related_posts(self):
+        related_posts = Post.objects.filter(category=self.category, status='published').exclude(pk=self.id)[:3]
+        return related_posts

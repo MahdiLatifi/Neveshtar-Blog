@@ -13,7 +13,7 @@ from .forms import NewsletterForm
 class IndexView(ListView):
     template_name = 'blog/index.html'
     context_object_name = 'posts'
-    paginate_by = 1
+    paginate_by = 4
 
     def get_queryset(self):
         queryset = Post.objects.filter(status='published').order_by('-published_at')
@@ -53,6 +53,9 @@ class PostDetailView(DetailView):
     template_name = 'blog/post.html'
     context_object_name = 'post'
     extra_context = {'categories': Category.objects.annotate(posts_count=Count('post'))}
+
+    def get_queryset(self):
+        return super().get_queryset().filter(status='published')
 
 
 @require_POST
