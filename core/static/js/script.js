@@ -147,12 +147,40 @@ function showToast(message, type) {
 // =================== NEWSLETTER ===================
 function subscribeNewsletter(inputId) {
     var email = $('#' + inputId).val().trim();
+
+    console.log(email)
+    console.log(ENDPOINTS.newsletter)
+
     if (!email || email.indexOf('@') === -1) {
         showToast('لطفاً ایمیل معتبر وارد کنید', 'error');
         return;
     }
-    $('#' + inputId).val('');
-    showToast('ایمیل شما با موفقیت ثبت شد! 📬', 'success');
+
+    $.ajax({
+        url: ENDPOINTS.newsletter,
+        type: 'POST',
+        data: {
+            email: email,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        beforeSend: function() {
+            // Optional: disable button during request
+            $('#' + inputId).prop('disabled', true);
+        },
+        success: function(response) {
+            if (response.success){
+                showToast(response.message, 'success');
+            } else {
+                showToast(response.message, 'error');
+            }
+            $('#' + inputId).val(''); // Clear input
+        },
+        error: function(xhr) {
+            var errorMsg = 'خطا در ثبت ایمیل';
+
+            showToast(errorMsg, 'error');
+        },
+    });
 }
 
 // =================== AUTH ===================

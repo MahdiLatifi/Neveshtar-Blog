@@ -82,7 +82,7 @@
                 <div class="footer-newsletter">
                     <h4>عضویت در خبرنامه</h4>
                     <p style="font-size:14px; margin-bottom:14px;">برای دریافت آخرین مطالب، ایمیل خود را وارد کنید.</p>
-                    <input type="email" placeholder="ایمیل شما..." id="footerEmail">
+                    <input type="email" placeholder="ایمیل خود را وارد کنید..." id="footerEmail" name="email" required>
                     <button class="btn btn-accent" style="width:100%;" onclick="subscribeNewsletter('footerEmail')">عضویت</button>
                 </div>
             </div>
@@ -135,6 +135,12 @@
 
 
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        const ENDPOINTS = {
+            newsletter: `${API_BASE}{% url 'newsletter-subscribe' %}`
+        }
+    </script>
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

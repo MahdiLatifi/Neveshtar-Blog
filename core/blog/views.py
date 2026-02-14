@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import ListView
+from django.views.decorators.http import require_POST
+from django.http.response import JsonResponse
 from django.db.models import Count, Q
+from django.db import IntegrityError
 
 from .models import Post, Category
+from .forms import NewsletterForm
 
 
 # Create your views here.
@@ -42,3 +46,27 @@ class IndexView(ListView):
         context['tag_query'] = self.request.GET.get('tag', '')
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
         return context
+
+
+@require_POST
+def newsletter_subscribe(request):
+    form = NewsletterForm(request.POST)
+
+    if form.is_valid():
+        try:
+            form.save()
+            return JsonResponse({
+                'success': True,
+                'message': 'ایمیل شما با موفقیت ثبت شد!'
+            })
+        except IntegrityError:
+            # Email already exists
+            return JsonResponse({
+                'success': False,
+                'errors': {'email': ['این ایمیل قبلاً ثبت شده است.']}
+            }, status=400)
+
+    return JsonResponse({
+        'success': False,
+        'errors': form.errors
+    }, status=400)
