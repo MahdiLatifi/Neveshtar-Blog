@@ -55,3 +55,6 @@ class Post(models.Model):
     def related_posts(self):
         related_posts = Post.objects.filter(category=self.category, status='published').exclude(pk=self.id)[:3]
         return related_posts
+
+    def all_comments(self):
+        return self.comments.filter(status='approved').order_by('-created_at')

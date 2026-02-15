@@ -88,44 +88,50 @@
 
                     <!-- Related Posts -->
                     {% if post.related_posts %}
-                    <div class="related-posts">
-                        <h3 class="section-title">📌 مطالب مرتبط</h3>
-                        <div class="related-grid" id="relatedPosts">
-                            {% for related_post in post.related_posts %}
-                            <div class="related-card"><a href="{% url 'post-detail' slug=related_post.slug %}"><img
-                                    src="{{ related_post.image.url }}"
-                                    alt="{{ related_post.title }}">
-                                <div class="body"><span class="post-cat" style="font-size:11px;margin-bottom:6px;">{{ related_post.category.name }}</span>
-                                    <h4>{{ related_post.title }}</h4><span class="date">{{ related_post.published_at }}</span>
-                                </div>
-                            </a></div>
-                            {% endfor %}
+                        <div class="related-posts">
+                            <h3 class="section-title">📌 مطالب مرتبط</h3>
+                            <div class="related-grid" id="relatedPosts">
+                                {% for related_post in post.related_posts %}
+                                    <div class="related-card"><a
+                                            href="{% url 'post-detail' slug=related_post.slug %}"><img
+                                            src="{{ related_post.image.url }}"
+                                            alt="{{ related_post.title }}">
+                                        <div class="body"><span class="post-cat"
+                                                                style="font-size:11px;margin-bottom:6px;">{{ related_post.category.name }}</span>
+                                            <h4>{{ related_post.title }}</h4><span
+                                                    class="date">{{ related_post.published_at }}</span>
+                                        </div>
+                                    </a></div>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
 
                     <!-- Comments -->
                     <div class="comments-section">
-                        <h3 class="comment-count">💬 <span id="commentsCountLabel">۵</span> نظر</h3>
-                        <div id="commentsList"></div>
+                        <h3 class="comment-count">💬 <span id="commentsCountLabel">{{ post.all_comments.count }}</span> نظر</h3>
+                        <div id="commentsList">
+                            {% for comment in post.all_comments %}
+                                <div class="comment "><img
+                                        src="{% static 'defaults/1.jpg' %}"
+                                        alt="{{ comment.user.full_name }}">
+                                    <div><span class="name">{{ comment.user.full_name }}</span><span
+                                            class="c-date">{{ comment.created_at }}</span>
+                                        <p>{{ comment.content }}</p>
+{#                                        <button class="reply-btn">↩ پاسخ</button>#}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
 
                         <div class="comment-form">
-                            <h3>💬 نظر خود را بنویسید</h3>
-                            <div class="form-row">
-                                <div class="form-group"><label>نام *</label><input type="text" id="commentName"
-                                                                                   placeholder="نام شما"></div>
-                                <div class="form-group"><label>ایمیل *</label><input type="email" id="commentEmail"
-                                                                                     placeholder="ایمیل شما"></div>
-                            </div>
+                            <h3>💬 نظر خود را بنویسید</h3>{% csrf_token %}
                             <div class="form-group"><label>متن نظر *</label><textarea id="commentText"
                                                                                       placeholder="نظر خود را اینجا بنویسید..."></textarea>
                             </div>
-                            <div class="checkbox-group" style="margin-bottom:16px;">
-                                <input type="checkbox" id="saveInfo">
-                                <label for="saveInfo" style="font-size:13px; color:var(--text-light);">ذخیره نام و ایمیل
-                                    برای دفعات بعد</label>
-                            </div>
-                            <button class="btn btn-primary" onclick="submitComment()">ارسال نظر</button>
+                            <button class="btn btn-primary"
+                                    onclick="submitComment('{% url 'post-comment' pk=post.id %}')">ارسال نظر
+                            </button>
                         </div>
                     </div>
                 </div>
