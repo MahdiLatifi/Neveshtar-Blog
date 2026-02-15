@@ -134,8 +134,9 @@
     <script>
         const BASE_URL = '{{ request.scheme }}://{{ request.get_host }}';
         const ENDPOINTS = {
-            newsletter: `${BASE_URL}{% url 'newsletter-subscribe' %}`
-            contact: `${BASE_URL}{% url 'contact' %}`
+            newsletter: `${BASE_URL}{% url 'newsletter-subscribe' %}`,
+            contact: `${BASE_URL}{% url 'contact' %}`,
+            default_comment_avatar: `${BASE_URL}{% static 'defaults/1.jpg' %}`
         }
     </script>
     <script src="{% static 'js/script.js' %}"></script>

@@ -6,7 +6,7 @@ from django.db.models import Count, Q
 from django.db import IntegrityError
 
 from .models import Post, Category
-from .forms import NewsletterForm, ContactForm
+from .forms import NewsletterForm, ContactForm, CommentForm
 from accounts.models import Profile
 
 
@@ -80,6 +80,34 @@ def newsletter_subscribe(request):
                 'success': False,
                 'errors': {'email': ['این ایمیل قبلاً ثبت شده است.']}
             }, status=400)
+
+    return JsonResponse({
+        'success': False,
+        'errors': form.errors
+    }, status=400)
+
+
+@require_POST
+def add_comment_view(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    form = CommentForm(request.POST)
+
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'success': False,
+            'message': 'ابتدا وارد شوید!'
+        })
+
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = Profile.objects.get(user=request.user)
+        comment.post = post
+        comment.save()
+
+        return JsonResponse({
+            'success': True,
+            'message': 'کامنت شما با موفقیت ثبت شد!'
+        })
 
     return JsonResponse({
         'success': False,

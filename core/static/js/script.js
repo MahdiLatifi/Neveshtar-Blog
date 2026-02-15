@@ -329,25 +329,46 @@ function copyShortUrl() {
 }
 
 // =================== COMMENT SUBMIT ===================
-function submitComment() {
-    var name = $('#commentName').val().trim();
-    var email = $('#commentEmail').val().trim();
+function submitComment(comment_url) {
     var text = $('#commentText').val().trim();
-    if (!name || !email || !text) {
+    console.log(text)
+    if (!text) {
         showToast('لطفاً تمام فیلدها را پر کنید', 'error');
         return;
     }
-    comments.unshift({
-        name: name,
-        date: 'همین الان',
-        text: text,
-        avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcabd9c?w=80&h=80&fit=crop'
+
+    $.ajax({
+        url: comment_url,
+        type: 'POST',
+        data: {
+            content: text,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(response) {
+            if (response.success){
+                showToast(response.message, 'success');
+            } else {
+                showToast(response.message, 'error');
+
+            }
+        },
+        error: function(xhr) {
+            var errorMsg = 'خطا در ثبت کامنت';
+            showToast(errorMsg, 'error');
+        },
     });
-    renderComments('#commentsList');
-    $('#commentName').val('');
-    $('#commentEmail').val('');
+
+    // comments.unshift({
+    //     name: name,
+    //     date: 'همین الان',
+    //     text: text,
+    //     avatar: ENDPOINTS.default_comment_avatar
+    // });
+    // renderComments('#commentsList');
+    // $('#commentName').val('');
+    // $('#commentEmail').val('');
     $('#commentText').val('');
-    showToast('نظر شما با موفقیت ثبت شد! ✅', 'success');
+    // showToast('نظر شما با موفقیت ثبت شد! ✅', 'success');
 }
 
 // // =================== PAGE INIT FUNCTIONS ===================

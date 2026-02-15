@@ -1,6 +1,8 @@
 from django import template
 from django.db.models import Count
 from django.shortcuts import reverse
+import random
+from django.conf import settings
 
 from ..models import Category, Post, Tag
 from accounts.models import Profile

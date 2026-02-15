@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Category, Tag, Newsletter, Contact
+from .models import Post, Category, Tag, Newsletter, Contact, Comment
 
 
 # Register your models here.
@@ -26,3 +26,8 @@ class NewsletterAdmin(admin.ModelAdmin):
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'subject', 'message')
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'post', 'content', 'status')
