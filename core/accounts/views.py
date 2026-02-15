@@ -12,6 +12,7 @@ from .models import User
 @require_POST
 def signup_view(request):
     data = request.POST
+    print(data)
     if data.get('password1') != data.get('password2'):
         return JsonResponse({
             'success': False,
@@ -20,9 +21,10 @@ def signup_view(request):
 
     try:
         user = User.objects.create_user(data.get('email'), data.get('password1'))
-        user.first_name = data.get('first_name')
-        user.last_name = data.get('last_name')
-        user.save()
+        profile = user.profile
+        profile.first_name = data.get('first_name')
+        profile.last_name = data.get('last_name')
+        profile.save()
         return JsonResponse({
             'success': True,
             'message': 'حساب کاربری شما با موفقیت ایجاد شد! 🎉'

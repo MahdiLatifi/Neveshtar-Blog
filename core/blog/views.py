@@ -62,6 +62,8 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
+        if self.request.user.is_authenticated:
+            context['blog_writer'] = Profile.objects.get(user=self.request.user)
         return context
 
 
@@ -130,6 +132,8 @@ class AboutView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['blog_writer'] = Profile.objects.filter(is_main_writer=True).first()
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
+        if self.request.user.is_authenticated:
+            context['blog_writer'] = Profile.objects.get(user=self.request.user)
         return context
 
 
@@ -148,4 +152,6 @@ class ContactView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
+        if self.request.user.is_authenticated:
+            context['blog_writer'] = Profile.objects.get(user=self.request.user)
         return context
