@@ -248,7 +248,7 @@ function doSignup() {
             }
         },
         error: function(xhr) {
-            var errorMsg = 'خطا در ثبت کامنت';
+            var errorMsg = 'خطا';
             showToast(errorMsg, 'error');
         },
     });

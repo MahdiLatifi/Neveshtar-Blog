@@ -46,6 +46,8 @@ class IndexView(ListView):
         context['category_query'] = self.request.GET.get('cat', '')
         context['tag_query'] = self.request.GET.get('tag', '')
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
+        if self.request.user.is_authenticated:
+            context['blog_writer'] = Profile.objects.get(user=self.request.user)
         return context
 
 
