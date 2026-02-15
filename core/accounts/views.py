@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 from django.http.response import JsonResponse
 from django.db import IntegrityError
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 
 from .models import User
 
@@ -30,3 +32,7 @@ def signup_view(request):
             'success': False,
             'errors': 'این ایمیل قبلاً ثبت شده است.'
         })
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')

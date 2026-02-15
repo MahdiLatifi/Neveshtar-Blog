@@ -56,7 +56,7 @@
                                         {% if blog_writer.image %}{{ blog_writer.image.url }}{% else %}{% static 'defaults/1.jpg' %}{% endif %}"
                                                                             alt="">{{ blog_writer.full_name }}</span>
                             </div>
-                            <a href="#">➡️ خروج از حساب کاربری</a>
+                            <a href="{% url 'accounts:logout' %}">➡️ خروج از حساب کاربری</a>
                         </div>
                     </div>
 
