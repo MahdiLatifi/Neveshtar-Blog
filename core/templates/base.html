@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <a href="{% url 'about' %}">درباره ما</a>
-                    <a href="contact.html">تماس</a>
+                    <a href="{% url 'contact' %}">تماس</a>
                 </nav>
                 <div class="header-actions">
                     <div class="search-box">
@@ -64,9 +64,7 @@
                     <ul class="footer-links">
                         <li><a href="{% url 'index' %}">خانه</a></li>
                         <li><a href="{% url 'about' %}">درباره ما</a></li>
-                        <li><a href="contact.html">تماس با ما</a></li>
-                        <li><a href="#">حریم خصوصی</a></li>
-                        <li><a href="#">قوانین سایت</a></li>
+                        <li><a href="{% url 'contact' %}">تماس با ما</a></li>
                     </ul>
                 </div>
                 <div>
@@ -137,6 +135,7 @@
         const BASE_URL = '{{ request.scheme }}://{{ request.get_host }}';
         const ENDPOINTS = {
             newsletter: `${BASE_URL}{% url 'newsletter-subscribe' %}`
+            contact: `${BASE_URL}{% url 'contact' %}`
         }
     </script>
     <script src="{% static 'js/script.js' %}"></script>

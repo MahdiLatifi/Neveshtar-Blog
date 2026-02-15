@@ -1,12 +1,12 @@
-from django.shortcuts import render, reverse, get_object_or_404
-from django.views.generic import ListView, DetailView, RedirectView, TemplateView
+from django.shortcuts import render, reverse, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, RedirectView, TemplateView, FormView
 from django.views.decorators.http import require_POST
 from django.http.response import JsonResponse
 from django.db.models import Count, Q
 from django.db import IntegrityError
 
 from .models import Post, Category
-from .forms import NewsletterForm
+from .forms import NewsletterForm, ContactForm
 from accounts.models import Profile
 
 
@@ -101,3 +101,16 @@ class AboutView(TemplateView):
         context['blog_writer'] = Profile.objects.filter(is_main_writer=True).first()
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
         return context
+
+
+class ContactView(FormView):
+    template_name = 'blog/contact.html'
+    form_class = ContactForm
+    context_object_name = 'form'
+
+    def get_success_url(self):
+        return reverse('contact')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

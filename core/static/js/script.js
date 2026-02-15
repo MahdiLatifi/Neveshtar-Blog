@@ -148,9 +148,6 @@ function showToast(message, type) {
 function subscribeNewsletter(inputId) {
     var email = $('#' + inputId).val().trim();
 
-    console.log(email)
-    console.log(ENDPOINTS.newsletter)
-
     if (!email || email.indexOf('@') === -1) {
         showToast('لطفاً ایمیل معتبر وارد کنید', 'error');
         return;
@@ -174,6 +171,39 @@ function subscribeNewsletter(inputId) {
                 showToast(response.message, 'error');
             }
             $('#' + inputId).val(''); // Clear input
+        },
+        error: function(xhr) {
+            var errorMsg = 'خطا در ثبت ایمیل';
+
+            showToast(errorMsg, 'error');
+        },
+    });
+}
+
+// =================== Contact ===================
+function submitContact() {
+    var name = $('#contactName').val().trim();
+    var email = $('#contactEmail').val().trim();
+    var subject = $('#contactSubject').val().trim();
+    var message = $('#contactMessage').val().trim();
+
+    if (!email || email.indexOf('@') === -1) {
+        showToast('لطفاً ایمیل معتبر وارد کنید', 'error');
+        return;
+    }
+
+    $.ajax({
+        url: ENDPOINTS.contact,
+        type: 'POST',
+        data: {
+            name: name,
+            email: email,
+            subject: subject,
+            message: message,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(response) {
+            showToast('پیام شما با موفقیت ارسال شد', 'success');
         },
         error: function(xhr) {
             var errorMsg = 'خطا در ثبت ایمیل';
