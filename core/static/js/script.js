@@ -219,7 +219,41 @@ function doLogin() {
     closeModal('login');
 }
 function doSignup() {
-    showToast('حساب کاربری شما با موفقیت ایجاد شد! 🎉', 'success');
+    var first_name = $('#nameSignup').val().trim();
+    var last_name = $('#lastnameSignup').val().trim();
+    var email = $('#emailSignup').val().trim();
+    var password1 = $('#password1Signup').val().trim();
+    var password2 = $('#password2Signup').val().trim();
+
+    if (password1 !== password2){
+        showToast('رمز عبور ها باید یکسان باشند', 'error');
+    }
+    $.ajax({
+        url: ENDPOINTS.signup,
+        type: 'POST',
+        data: {
+            first_name: first_name,
+            last_name: last_name,
+            email: email,
+            password1: password1,
+            password2: password2,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(response) {
+            if (response.success){
+                showToast(response.message, 'success');
+            } else {
+                showToast(response.errors, 'error');
+
+            }
+        },
+        error: function(xhr) {
+            var errorMsg = 'خطا در ثبت کامنت';
+            showToast(errorMsg, 'error');
+        },
+    });
+
+    // showToast('حساب کاربری شما با موفقیت ایجاد شد! 🎉', 'success');
     closeModal('signup');
 }
 

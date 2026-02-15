@@ -115,11 +115,12 @@
             <h2>🚀 ثبت‌نام</h2>
             <p class="subtitle">یک حساب کاربری جدید بسازید</p>
             <div class="form-row">
-                <div class="form-group"><label>نام</label><input type="text" placeholder="نام"></div>
-                <div class="form-group"><label>نام خانوادگی</label><input type="text" placeholder="نام خانوادگی"></div>
-            </div>
-            <div class="form-group"><label>ایمیل</label><input type="email" placeholder="ایمیل خود را وارد کنید"></div>
-            <div class="form-group"><label>رمز عبور</label><input type="password" placeholder="حداقل ۸ کاراکتر"></div>
+                <div class="form-group"><label>نام</label><input type="text" placeholder="نام" id="nameSignup"></div>
+                <div class="form-group"><label>نام خانوادگی</label><input type="text" placeholder="نام خانوادگی" id="lastnameSignup"></div>
+            </div>{% csrf_token %}
+            <div class="form-group"><label>ایمیل</label><input type="email" placeholder="ایمیل خود را وارد کنید" id="emailSignup"></div>
+            <div class="form-group"><label>رمز عبور</label><input type="password" placeholder="حداقل ۸ کاراکتر" id="password1Signup"></div>
+            <div class="form-group"><label>تکرار رمز عبور</label><input type="password" placeholder="حداقل ۸ کاراکتر" id="password2Signup"></div>
             <div class="checkbox-group" style="margin-bottom:16px;"><input type="checkbox" id="terms"><label for="terms" style="font-size:13px;">با <a href="#" style="color:var(--primary);">قوانین و مقررات</a> سایت موافقم</label></div>
             <button class="btn btn-primary btn-lg" style="width:100%;" onclick="doSignup()">ایجاد حساب کاربری</button>
             <div class="switch">قبلاً ثبت‌نام کرده‌اید؟ <a onclick="closeModal('signup'); openModal('login');">وارد شوید</a></div>
@@ -136,6 +137,7 @@
         const ENDPOINTS = {
             newsletter: `${BASE_URL}{% url 'newsletter-subscribe' %}`,
             contact: `${BASE_URL}{% url 'contact' %}`,
+            signup: `${BASE_URL}{% url 'accounts:signup' %}`,
             default_comment_avatar: `${BASE_URL}{% static 'defaults/1.jpg' %}`
         }
     </script>
