@@ -215,8 +215,33 @@ function submitContact() {
 
 // =================== AUTH ===================
 function doLogin() {
+    var email = $('#emailLogin').val().trim();
+    var password = $('#passwordLogin').val().trim();
+
+    $.ajax({
+        url: ENDPOINTS.login,
+        type: 'POST',
+        data: {
+            email: email,
+            password: password,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(response) {
+            if (response.success){
+                showToast(response.message, 'success');
+            } else {
+                showToast(response.errors, 'error');
+
+            }
+        },
+        error: function(xhr) {
+            var errorMsg = 'خطا';
+            showToast(errorMsg, 'error');
+        },
+    });
+
     showToast('با موفقیت وارد شدید! 🎉', 'success');
-    closeModal('login');
+    // window.location.reload();
 }
 function doSignup() {
     var first_name = $('#nameSignup').val().trim();

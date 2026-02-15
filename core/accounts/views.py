@@ -33,6 +33,20 @@ def signup_view(request):
             'errors': 'این ایمیل قبلاً ثبت شده است.'
         })
 
+
+@require_POST
+def login_view(request):
+    data = request.POST
+    user = authenticate(username=data.get('email'), password=data.get('password'))
+    if user:
+        login(request, user)
+        return redirect('index')
+    return JsonResponse({
+        'success': False,
+        'message': 'not ok'
+    })
+
+
 def logout_view(request):
     logout(request)
     return redirect('index')

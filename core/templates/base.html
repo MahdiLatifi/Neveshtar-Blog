@@ -53,6 +53,7 @@
                         <div class="dropdown-menu">
                             <div class="post-meta" style="font-size: 18px; padding: 9px 14px;">
                                 <span class="author" style="gap: 10px"><img src="
+
                                         {% if blog_writer.image %}{{ blog_writer.image.url }}{% else %}{% static 'defaults/1.jpg' %}{% endif %}"
                                                                             alt="">{{ blog_writer.full_name }}</span>
                             </div>
@@ -124,22 +125,24 @@
             <button class="modal-close" onclick="closeModal('login')">✕</button>
             <h2>👋 خوش آمدید</h2>
             <p class="subtitle">وارد حساب کاربری خود شوید</p>
-            <div class="form-group"><label>ایمیل یا نام کاربری</label><input type="text"
-                                                                             placeholder="ایمیل یا نام کاربری خود را وارد کنید">
+            <form method="post" action="{% url 'accounts:login' %}"> {% csrf_token %}
+            <div class="form-group"><label>ایمیل</label><input type="text" name="email" id="emailLogin"
+                                                                             placeholder="ایمیل خود را وارد کنید">
             </div>
-            <div class="form-group"><label>رمز عبور</label><input type="password"
+            <div class="form-group"><label>رمز عبور</label><input type="password" name="password" id="passwordLogin"
                                                                   placeholder="رمز عبور خود را وارد کنید"></div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                 <div class="checkbox-group"><input type="checkbox" id="remember"><label for="remember"
                                                                                         style="font-size:13px;">مرا به
                     خاطر بسپار</label></div>
-                <a href="#" style="font-size:13px; color:var(--primary);">فراموشی رمز عبور</a>
+                {#                <a href="#" style="font-size:13px; color:var(--primary);">فراموشی رمز عبور</a>#}
             </div>
-            <button class="btn btn-primary btn-lg" style="width:100%;" onclick="doLogin()">ورود به حساب</button>
-            <div class="divider">یا</div>
-            <button class="btn btn-outline" style="width:100%; justify-content:center;"
-                    onclick="showToast('ورود با گوگل فعلاً در دسترس نیست', 'error')">🔵 ورود با حساب گوگل
-            </button>
+            <button class="btn btn-primary btn-lg" style="width:100%;" type="submit">ورود به حساب</button>
+            {#            <div class="divider">یا</div>#}
+            {#            <button class="btn btn-outline" style="width:100%; justify-content:center;"#}
+            {#                    onclick="showToast('ورود با گوگل فعلاً در دسترس نیست', 'error')">🔵 ورود با حساب گوگل#}
+            {#            </button>#}
+                </form>
             <div class="switch">حساب کاربری ندارید؟ <a onclick="closeModal('login'); openModal('signup');">ثبت‌نام
                 کنید</a></div>
         </div>
@@ -184,6 +187,7 @@
         newsletter: `${BASE_URL}{% url 'newsletter-subscribe' %}`,
         contact: `${BASE_URL}{% url 'contact' %}`,
         signup: `${BASE_URL}{% url 'accounts:signup' %}`,
+        login: `${BASE_URL}{% url 'accounts:login' %}`,
         default_comment_avatar: `${BASE_URL}{% static 'defaults/1.jpg' %}`
     }
 </script>
