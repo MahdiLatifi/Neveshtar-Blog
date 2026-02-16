@@ -65,7 +65,7 @@
                                             <div class="post-meta">
                                                 <span class="author"><img src="{{ post.user.image.url }}"
                                                                           alt="">{{ post.user.full_name }}</span>
-                                                <span>📅 {{ post.published_at|date:"j M Y" }}</span>
+                                                <span>📅 {{ post.published_at|my_jalalidate }}</span>
                                                 <span>⏱ {{ post.estimated_reading_time|persian_int }} دقیقه</span>
                                             </div>
                                             <div class="post-tags">

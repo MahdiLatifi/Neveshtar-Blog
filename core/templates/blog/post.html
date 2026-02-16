@@ -24,7 +24,7 @@
                                 <div>
                                     <strong id="detailAuthor">{{ post.user.full_name }}</strong>
                                     <div id="detailDate"
-                                         style="font-size:12px; color:var(--text-lighter);">{{ post.published_at }}</div>
+                                         style="font-size:12px; color:var(--text-lighter);">{{ post.published_at|my_jalalidate }}</div>
                                 </div>
                             </div>
                             <span>⏱ <span id="detailReadTime">{{ post.estimated_reading_time|persian_int }}</span> دقیقه مطالعه</span>
@@ -99,7 +99,7 @@
                                         <div class="body"><span class="post-cat"
                                                                 style="font-size:11px;margin-bottom:6px;">{{ related_post.category.name }}</span>
                                             <h4>{{ related_post.title }}</h4><span
-                                                    class="date">{{ related_post.published_at }}</span>
+                                                    class="date">{{ related_post.published_at|my_jalalidate }}</span>
                                         </div>
                                     </a></div>
                                 {% endfor %}

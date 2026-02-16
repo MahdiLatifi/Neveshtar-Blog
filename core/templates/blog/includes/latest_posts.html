@@ -1,3 +1,5 @@
+{% load blog_tags %}
+
 <div class="widget">
     <h3 class="widget-title">🕐 مطالب اخیر</h3>
     <div id="recentPosts">
@@ -6,7 +8,7 @@
                 src="{{ post.image.url }}"
                 alt="{{ post.title }}">
             <div><h4>{{ post.title|truncatechars:50 }}</h4>
-                <div class="date">📅 {{ post.published_at }}</div>
+                <div class="date">📅 {{ post.published_at|my_jalalidate }}</div>
             </div>
         </a></div>
         {% endfor %}
