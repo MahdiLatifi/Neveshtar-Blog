@@ -250,8 +250,14 @@ function doSignup() {
     var password1 = $('#password1Signup').val().trim();
     var password2 = $('#password2Signup').val().trim();
 
+    if (!first_name || !last_name || !email || !password1 || !password2){
+        showToast('همه فیلد ها را پر کنید', 'error');
+        return;
+    }
+
     if (password1 !== password2){
         showToast('رمز عبور ها باید یکسان باشند', 'error');
+        return;
     }
     $.ajax({
         url: ENDPOINTS.signup,
