@@ -59,6 +59,13 @@ class PostDetailView(DetailView):
     def get_queryset(self):
         return super().get_queryset().filter(status='published')
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset=queryset)
+        # Increment view count
+        obj.view_count += + 1
+        obj.save(update_fields=['view_count'])
+        return obj
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
