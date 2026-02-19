@@ -40,7 +40,8 @@
         <section class="main-content">
             <div class="container">
                 <div class="content-grid">
-                    <div>
+                    <!-- Main Posts Area -->
+                    <main class="posts-area">
                         {% if category_query %}
                             <h2 class="section-title">📄 مطالب دسته «{{ category_query }}»</h2>
                         {% elif search_query %}
@@ -49,59 +50,64 @@
                             <h2 class="section-title">📄 مطالب برچسب‌ «{{ tag_query }}»</h2>
                         {% else %}
                             <h2 class="section-title">📰 آخرین مطالب</h2>
-
                         {% endif %}
 
                         <div id="postsList">
                             {% if posts %}
                                 {% for post in posts %}
-                                    <a href="{% url 'post-detail' slug=post.slug %}" class="post-card post-card-horizontal">
-                                        <div class="post-thumb"><img src="{{ post.image.url }}" alt="{{ post.title }}">
-                                        </div>
-                                        <div class="post-card-body">
-                                            <span class="post-cat">{{ post.category.name }}</span>
-                                            <h3>{{ post.title }}</h3>
-                                            <p>{{ post.content|truncatechars:100|safe }}</p>
-                                            <div class="post-meta">
-                                                <span class="author"><img src="{{ post.user.image.url }}"
-                                                                          alt="">{{ post.user.full_name }}</span>
-                                                <span>📅 {{ post.published_at|my_jalalidate }}</span>
-                                                <span>⏱ {{ post.estimated_reading_time|persian_int }} دقیقه</span>
+                                    <article class="post-card post-card-horizontal">
+                                        <a href="{% url 'post-detail' slug=post.slug %}" class="post-card-link">
+                                            <div class="post-thumb">
+                                                <img src="{{ post.image.url }}" alt="{{ post.title }}">
                                             </div>
-                                            <div class="post-tags">
-                                                {% for tag in post.tags.all %}
-                                                    <span class="post-tag">#{{ tag.name }}</span>
-                                                {% endfor %}
+                                            <div class="post-card-body">
+                                                <span class="post-cat">{{ post.category.name }}</span>
+                                                <h3>{{ post.title }}</h3>
+                                                <p>{{ post.content|truncatechars:100|safe }}</p>
+                                                <div class="post-meta">
+                                                    <span class="author">
+                                                        <img src="{{ post.user.image.url }}" alt="">
+                                                        {{ post.user.full_name }}
+                                                    </span>
+                                                    <span>📅 {{ post.published_at|my_jalalidate }}</span>
+                                                    <span>⏱ {{ post.estimated_reading_time|persian_int }} دقیقه</span>
+                                                </div>
+                                                <div class="post-tags">
+                                                    {% for tag in post.tags.all %}
+                                                        <span class="post-tag">#{{ tag.name }}</span>
+                                                    {% endfor %}
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    </article>
                                 {% endfor %}
 
                                 <!-- Pagination -->
-                                <div class="pagination">
+                                <nav class="pagination" aria-label="صفحه‌بندی">
                                     {% if page_obj.has_previous %}
-                                        <a href="?page={{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">«</a>
+                                        <a href="?page={{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}" aria-label="صفحه قبل">«</a>
                                     {% endif %}
+
                                     {% for i in page_obj.paginator.page_range %}
                                         {% if page_obj.number == i %}
-                                            <span class="active">{{ i }}</span>
+                                            <span class="active" aria-current="page">{{ i }}</span>
                                         {% else %}
                                             <a href="?page={{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">{{ i }}</a>
                                         {% endif %}
                                     {% endfor %}
+
                                     {% if page_obj.has_next %}
-                                        <a href="?page=
-                                                {{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">»</a>
+                                        <a href="?page={{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}" aria-label="صفحه بعد">»</a>
                                     {% endif %}
-                                </div>
+                                </nav>
                             {% else %}
-                                <div style="text-align:center;padding:60px;color:var(--text-light);">
+                                <div class="no-results">
                                     <h3>نتیجه‌ای یافت نشد 😕</h3>
                                     <p>لطفاً عبارت دیگری را جستجو کنید.</p>
                                 </div>
                             {% endif %}
                         </div>
-                    </div>
+                    </main>
 
                     <!-- Sidebar -->
                     {% include 'blog/includes/sidebar.html' %}
