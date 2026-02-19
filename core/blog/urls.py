@@ -22,7 +22,4 @@ urlpatterns = [
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('post/<unicode_slug:slug>/', views.PostDetailView.as_view(), name='post-detail'),
     path('p/<str:short_code>/', views.RedirectToRealURLView.as_view(), name='redirect-to-real-url'),
-
-    # API
-    path('api/v1/', include('blog.api.v1.urls'))
 ]

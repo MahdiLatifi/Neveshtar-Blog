@@ -24,6 +24,9 @@ urlpatterns = [
     path('', include('blog.urls')),
     path('auth/', include('accounts.urls')),
     path('summernote/', include('django_summernote.urls')),
+
+    # API
+    path('api/v1/', include('core.api_v1_urls')),
 ]
 
 # serving static and media for development
