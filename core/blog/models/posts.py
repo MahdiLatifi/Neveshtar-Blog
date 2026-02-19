@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils.text import slugify
+from django.shortcuts import reverse
 
 from accounts.models import Profile
 
@@ -26,6 +27,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'slug': self.slug})
 
     @property
     def snippet_content(self):
