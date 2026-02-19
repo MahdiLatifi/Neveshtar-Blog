@@ -184,7 +184,7 @@
 <script>
     const BASE_URL = '{{ request.scheme }}://{{ request.get_host }}';
     const ENDPOINTS = {
-        newsletter: `${BASE_URL}{% url 'newsletter-subscribe' %}`,
+        newsletter: `${BASE_URL}{% url 'api-v1:newsletter-create' %}`,
         contact: `${BASE_URL}{% url 'contact' %}`,
         signup: `${BASE_URL}{% url 'accounts:signup' %}`,
         login: `${BASE_URL}{% url 'accounts:login' %}`,

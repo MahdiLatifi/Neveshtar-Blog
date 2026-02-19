@@ -160,23 +160,20 @@ function subscribeNewsletter(inputId) {
             email: email,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
-        beforeSend: function() {
-            // Optional: disable button during request
+        beforeSend: function () {
             $('#' + inputId).prop('disabled', true);
         },
-        success: function(response) {
-            if (response.success){
-                showToast(response.message, 'success');
-            } else {
-                showToast(response.message, 'error');
-            }
-            $('#' + inputId).val(''); // Clear input
+        success: function (response) {
+            showToast(response.message, 'success');
+            $('#' + inputId).val('');
         },
-        error: function(xhr) {
+        error: function (xhr) {
             var errorMsg = 'خطا در ثبت ایمیل';
-
             showToast(errorMsg, 'error');
         },
+        complete: function () {
+            $('#' + inputId).prop('disabled', false);
+        }
     });
 }
 

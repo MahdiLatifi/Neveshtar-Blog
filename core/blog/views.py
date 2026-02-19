@@ -75,30 +75,6 @@ class PostDetailView(DetailView):
 
 
 @require_POST
-def newsletter_subscribe(request):
-    form = NewsletterForm(request.POST)
-
-    if form.is_valid():
-        try:
-            form.save()
-            return JsonResponse({
-                'success': True,
-                'message': 'ایمیل شما با موفقیت ثبت شد!'
-            })
-        except IntegrityError:
-            # Email already exists
-            return JsonResponse({
-                'success': False,
-                'errors': {'email': ['این ایمیل قبلاً ثبت شده است.']}
-            }, status=400)
-
-    return JsonResponse({
-        'success': False,
-        'errors': form.errors
-    }, status=400)
-
-
-@require_POST
 def add_comment_view(request, pk):
     post = get_object_or_404(Post, pk=pk)
     form = CommentForm(request.POST)
