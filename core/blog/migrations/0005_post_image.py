@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('blog', '0004_remove_post_shortened_url_code_post_short_code'),
     ]

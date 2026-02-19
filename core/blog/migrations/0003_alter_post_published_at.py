@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('blog', '0002_post_published_at_post_status_alter_post_view_count'),
     ]

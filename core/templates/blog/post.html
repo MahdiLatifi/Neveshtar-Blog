@@ -130,7 +130,7 @@
                                                                                       placeholder="نظر خود را اینجا بنویسید..."></textarea>
                             </div>
                             <button class="btn btn-primary"
-                                    onclick="submitComment('{% url 'post-comment' pk=post.id %}')">ارسال نظر
+                                    onclick="submitComment('{% url 'api-v1:comment-create' pk=post.id %}')">ارسال نظر
                             </button>
                         </div>
                     </div>

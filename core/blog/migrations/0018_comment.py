@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('accounts', '0003_skill_profile_my_story_profile_skills'),
         ('blog', '0017_contact'),
@@ -17,11 +16,15 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('content', models.TextField()),
-                ('status', models.CharField(choices=[('approved', 'Approved'), ('pending', 'Pending'), ('spam', 'Spam')], default='pending', max_length=15)),
+                ('status',
+                 models.CharField(choices=[('approved', 'Approved'), ('pending', 'Pending'), ('spam', 'Spam')],
+                                  default='pending', max_length=15)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='blog.post')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='accounts.profile')),
+                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments',
+                                           to='blog.post')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments',
+                                           to='accounts.profile')),
             ],
         ),
     ]

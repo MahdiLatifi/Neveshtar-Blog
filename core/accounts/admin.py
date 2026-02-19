@@ -31,6 +31,7 @@ class UserAdmin(UserAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'first_name', 'last_name')
 
+
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
     list_display = ('name',)

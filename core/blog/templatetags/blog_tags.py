@@ -18,6 +18,7 @@ PERSIAN_DIGITS = {
     '5': '۵', '6': '۶', '7': '۷', '8': '۸', '9': '۹',
 }
 
+
 def to_persian_digits(text):
     """Replace all ASCII digits in a string with Persian (Eastern Arabic) digits."""
     return re.sub(r'\d', lambda m: PERSIAN_DIGITS[m.group()], text)
@@ -73,8 +74,8 @@ def my_jalalidate(value):
         'Esfand': 'اسفند',
     }
 
-    month_en = jalali_date.strftime("%B")          # e.g. 'Esfand'
-    month_fa = month_names.get(month_en, month_en) # fallback to English if not found
+    month_en = jalali_date.strftime("%B")  # e.g. 'Esfand'
+    month_fa = month_names.get(month_en, month_en)  # fallback to English if not found
 
     # Format: day month year
     formatted = jalali_date.strftime(f"%d {month_fa} %Y")
