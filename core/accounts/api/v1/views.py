@@ -1,6 +1,8 @@
 from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import login, logout, authenticate
+from rest_framework.views import APIView
 
 from .serializers import SignupSerializer, LoginSerializer
 
@@ -31,3 +33,11 @@ class LoginView(generics.GenericAPIView):
             'success': True,
             'message': 'با موفقیت وارد شدید! 🎉'
         })
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return Response({'success': True})

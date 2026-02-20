@@ -135,7 +135,7 @@ function doLogin() {
         success: function (response) {
             if (response.success) {
                 showToast(response.message, 'success');
-                location.reload()
+                location.reload();
                 return null;
             } else {
                 showToast(response.errors, 'error');
@@ -145,7 +145,7 @@ function doLogin() {
         error: function (xhr) {
             var errorMsg = 'خطا';
             showToast(errorMsg, 'error');
-                return null;
+            return null;
         },
     });
 
@@ -196,6 +196,24 @@ function doSignup() {
 
     // showToast('حساب کاربری شما با موفقیت ایجاد شد! 🎉', 'success');
     closeModal('signup');
+}
+
+
+function doLogout() {
+    $.ajax({
+        url: ENDPOINTS.logout,
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function (response) {
+            location.reload();
+        },
+        error: function (xhr) {
+            var errorMsg = 'خطا';
+            showToast(errorMsg, 'error');
+        },
+    });
 }
 
 // =================== URL PARAMS ===================

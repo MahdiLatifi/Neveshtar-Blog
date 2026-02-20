@@ -57,7 +57,7 @@
                                         {% if blog_writer.image %}{{ blog_writer.image.url }}{% else %}{% static 'defaults/1.jpg' %}{% endif %}"
                                                                             alt="">{{ blog_writer.full_name }}</span>
                             </div>
-                            <a href="{% url 'accounts:logout' %}">➡️ خروج از حساب کاربری</a>
+                            <a onclick="doLogout()" style="cursor: pointer">➡️ خروج از حساب کاربری</a>
                         </div>
                     </div>
 
@@ -184,6 +184,7 @@
         contact: `${BASE_URL}{% url 'contact' %}`,
         signup: `${BASE_URL}{% url 'api-v1:signup' %}`,
         login: `${BASE_URL}{% url 'api-v1:login' %}`,
+        logout: `${BASE_URL}{% url 'api-v1:logout' %}`,
         default_comment_avatar: `${BASE_URL}{% static 'defaults/1.jpg' %}`
     }
 </script>
