@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import authenticate
 
 from accounts.models import User
 
@@ -26,3 +27,21 @@ class SignupSerializer(serializers.ModelSerializer):
         user.profile.last_name = validated_data['last_name']
         user.profile.save()
         return user
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    class Meta:
+        fields = ['email', 'password']
+
+    def validate(self, data):
+        email = data.get("email")
+        password = data.get("password")
+
+        user = authenticate(email=email, password=password)
+        if user is None:
+            raise serializers.ValidationError({'password': 'email or password is wrong'})
+        data['user'] = user
+        return super().validate(data)

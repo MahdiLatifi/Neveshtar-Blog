@@ -135,14 +135,17 @@ function doLogin() {
         success: function (response) {
             if (response.success) {
                 showToast(response.message, 'success');
+                location.reload()
+                return null;
             } else {
                 showToast(response.errors, 'error');
-
+                return null;
             }
         },
         error: function (xhr) {
             var errorMsg = 'خطا';
             showToast(errorMsg, 'error');
+                return null;
         },
     });
 

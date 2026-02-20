@@ -125,7 +125,7 @@
             <button class="modal-close" onclick="closeModal('login')">✕</button>
             <h2>👋 خوش آمدید</h2>
             <p class="subtitle">وارد حساب کاربری خود شوید</p>
-            <form method="post" action="{% url 'accounts:login' %}"> {% csrf_token %}
+            <form method="post" action="{% url 'api-v1:login' %}"> {% csrf_token %}
             <div class="form-group"><label>ایمیل</label><input type="text" name="email" id="emailLogin"
                                                                              placeholder="ایمیل خود را وارد کنید">
             </div>
@@ -137,11 +137,7 @@
                     خاطر بسپار</label></div>
                 {#                <a href="#" style="font-size:13px; color:var(--primary);">فراموشی رمز عبور</a>#}
             </div>
-            <button class="btn btn-primary btn-lg" style="width:100%;" type="submit">ورود به حساب</button>
-            {#            <div class="divider">یا</div>#}
-            {#            <button class="btn btn-outline" style="width:100%; justify-content:center;"#}
-            {#                    onclick="showToast('ورود با گوگل فعلاً در دسترس نیست', 'error')">🔵 ورود با حساب گوگل#}
-            {#            </button>#}
+            <button class="btn btn-primary btn-lg" style="width:100%;" type="button" onclick="doLogin()">ورود به حساب</button>
                 </form>
             <div class="switch">حساب کاربری ندارید؟ <a onclick="closeModal('login'); openModal('signup');">ثبت‌نام
                 کنید</a></div>
@@ -187,7 +183,7 @@
         newsletter: `${BASE_URL}{% url 'api-v1:newsletter-create' %}`,
         contact: `${BASE_URL}{% url 'contact' %}`,
         signup: `${BASE_URL}{% url 'api-v1:signup' %}`,
-        login: `${BASE_URL}{% url 'accounts:login' %}`,
+        login: `${BASE_URL}{% url 'api-v1:login' %}`,
         default_comment_avatar: `${BASE_URL}{% static 'defaults/1.jpg' %}`
     }
 </script>
