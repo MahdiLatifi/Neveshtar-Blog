@@ -12,9 +12,9 @@ class Post(models.Model):
     image = models.ImageField(default='images/post-1.jpg', upload_to='blog/')
     slug = models.SlugField(max_length=255, unique=True, blank=True, editable=False)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    estimated_reading_time = models.IntegerField()
-    view_count = models.IntegerField(default=0)
-    short_code = models.CharField(max_length=20, unique=True, blank=True)
+    estimated_reading_time = models.IntegerField(default=0)
+    view_count = models.IntegerField(default=0, editable=False)
+    short_code = models.CharField(max_length=20, unique=True, blank=True, editable=False)
     published_at = models.DateTimeField()
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
     # comments
