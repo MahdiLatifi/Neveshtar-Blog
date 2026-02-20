@@ -14,7 +14,7 @@
                             <a href="{% url 'index' %}">خانه</a> / <a
                                 href="{% url 'index' %}?cat={{ post.category.name }}"
                                 id="detailCatLink">{{ post.category.name }}</a> / <span
-                                id="detailBreadTitle">{{ post.user.full_name }}</span>
+                                id="detailBreadTitle">{{ post.title }}</span>
                         </div>
                         <h1 id="detailTitle">{{ post.title }}</h1>
                         <div class="detail-meta">
