@@ -47,7 +47,7 @@ class IndexView(ListView):
         context['tag_query'] = self.request.GET.get('tag', '')
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
         if self.request.user.is_authenticated:
-            context['blog_writer'] = Profile.objects.get(user=self.request.user)
+            context['blog_user'] = Profile.objects.get(user=self.request.user)
         return context
 
 
@@ -70,7 +70,7 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
         if self.request.user.is_authenticated:
-            context['blog_writer'] = Profile.objects.get(user=self.request.user)
+            context['blog_user'] = Profile.objects.get(user=self.request.user)
         return context
 
 
@@ -88,7 +88,7 @@ class AboutView(TemplateView):
         context['blog_writer'] = Profile.objects.filter(is_main_writer=True).first()
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
         if self.request.user.is_authenticated:
-            context['blog_writer'] = Profile.objects.get(user=self.request.user)
+            context['blog_user'] = Profile.objects.get(user=self.request.user)
         return context
 
 
@@ -108,5 +108,5 @@ class ContactView(FormView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.annotate(posts_count=Count('post'))
         if self.request.user.is_authenticated:
-            context['blog_writer'] = Profile.objects.get(user=self.request.user)
+            context['blog_user'] = Profile.objects.get(user=self.request.user)
         return context

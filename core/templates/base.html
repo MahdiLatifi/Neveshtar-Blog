@@ -54,8 +54,8 @@
                             <div class="post-meta" style="font-size: 18px; padding: 9px 14px;">
                                 <span class="author" style="gap: 10px"><img src="
 
-                                        {% if blog_writer.image %}{{ blog_writer.image.url }}{% else %}{% static 'defaults/1.jpg' %}{% endif %}"
-                                                                            alt="">{{ blog_writer.full_name }}</span>
+                                        {% if blog_user.image %}{{ blog_user.image.url }}{% else %}{% static 'defaults/1.jpg' %}{% endif %}"
+                                                                            alt="">{{ blog_user.full_name }}</span>
                             </div>
                             <a onclick="doLogout()" style="cursor: pointer">➡️ خروج از حساب کاربری</a>
                         </div>
