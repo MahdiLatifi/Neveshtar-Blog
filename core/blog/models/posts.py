@@ -57,8 +57,12 @@ class Post(models.Model):
         return super().save(*args, **kwargs)
 
     def related_posts(self):
-        related_posts = Post.objects.filter(category=self.category, status='published').exclude(pk=self.id)[:3]
+        related_posts = Post.objects.filter(category=self.category, status='published').exclude(pk=self.id) \
+            .select_related('category') \
+            .order_by('-published_at')[:3]
         return related_posts
 
     def all_comments(self):
-        return self.comments.filter(status='approved').order_by('-created_at')
+        return self.comments.filter(status='approved') \
+            .select_related('post', 'user') \
+            .order_by('-created_at')

@@ -1,12 +1,47 @@
 {% load blog_tags %}
 
 <aside class="sidebar">
-    {% blog_writer %}
+    <div class="widget about-widget">
+        <img src="{{ blog_writer.image.url }}"
+             alt="نویسنده">
+        <h4>{{ blog_writer.full_name }}</h4>
+        <p>{{ blog_writer.description }}</p>
+        <div class="about-socials">
+            <a href="#">𝕏</a><a href="#">in</a><a href="#">📷</a><a href="#">✈️</a>
+        </div>
+    </div>
 
-    {% blog_categories categories %}
+    <div class="widget">
+        <h3 class="widget-title">📂 دسته‌بندی‌ها</h3>
+        <ul class="cat-list">
+            {% for cat in categories %}
+                <li><a href="{% url 'index' %}?cat={{ cat.name }}">{{ cat.name }} <span>{{ cat.posts_count }}</span></a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 
-    {% latest_posts %}
+    <div class="widget">
+        <h3 class="widget-title">🕐 مطالب اخیر</h3>
+        <div id="recentPosts">
+            {% for post in latest_posts %}
+                <div class="recent-post"><a href="{% url 'post-detail' slug=post.slug %}"><img
+                        src="{{ post.image.url }}"
+                        alt="{{ post.title }}">
+                    <div><h4>{{ post.title|truncatechars:50 }}</h4>
+                        <div class="date">📅 {{ post.published_at|my_jalalidate }}</div>
+                    </div>
+                </a></div>
+            {% endfor %}
+        </div>
+    </div>
 
-    {% tags %}
-
+    <div class="widget">
+        <h3 class="widget-title">🏷️ برچسب‌ها</h3>
+        <div class="tags-cloud">
+            {% for tag in tags %}
+                <a href="{% url 'index' %}?tag={{ tag.name }}">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
 </aside>

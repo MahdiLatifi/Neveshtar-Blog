@@ -7,17 +7,21 @@ from django.db import IntegrityError
 
 from .models import Post, Category
 from .forms import NewsletterForm, ContactForm, CommentForm
+from .mixins import GeneralContextMixin
 from accounts.models import Profile
 
 
 # Create your views here.
-class IndexView(ListView):
+class IndexView(GeneralContextMixin, ListView):
     template_name = 'blog/index.html'
     context_object_name = 'posts'
-    paginate_by = 4
+    paginate_by = 10
 
     def get_queryset(self):
-        queryset = Post.objects.filter(status='published').order_by('-published_at')
+        queryset = Post.objects.filter(status='published') \
+            .select_related('category', 'user') \
+            .prefetch_related('tags') \
+            .order_by('-published_at')
 
         search_query = self.request.GET.get('search')
         if search_query:
@@ -45,19 +49,19 @@ class IndexView(ListView):
         context['search_query'] = self.request.GET.get('search', '')
         context['category_query'] = self.request.GET.get('cat', '')
         context['tag_query'] = self.request.GET.get('tag', '')
-        context['categories'] = Category.objects.annotate(posts_count=Count('post'))
-        if self.request.user.is_authenticated:
-            context['blog_user'] = Profile.objects.get(user=self.request.user)
         return context
 
 
-class PostDetailView(DetailView):
-    model = Post
+class PostDetailView(GeneralContextMixin, DetailView):
+    # model = Post
     template_name = 'blog/post.html'
     context_object_name = 'post'
 
     def get_queryset(self):
-        return super().get_queryset().filter(status='published')
+        return Post.objects.filter(status='published')\
+            .select_related('category', 'user')\
+            .prefetch_related('tags')\
+            .order_by('-published_at')
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
@@ -66,13 +70,6 @@ class PostDetailView(DetailView):
         obj.save(update_fields=['view_count'])
         return obj
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.annotate(posts_count=Count('post'))
-        if self.request.user.is_authenticated:
-            context['blog_user'] = Profile.objects.get(user=self.request.user)
-        return context
-
 
 class RedirectToRealURLView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
@@ -80,19 +77,11 @@ class RedirectToRealURLView(RedirectView):
         return reverse('post-detail', kwargs={'slug': post.slug})
 
 
-class AboutView(TemplateView):
+class AboutView(GeneralContextMixin, TemplateView):
     template_name = 'blog/about.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['blog_writer'] = Profile.objects.filter(is_main_writer=True).first()
-        context['categories'] = Category.objects.annotate(posts_count=Count('post'))
-        if self.request.user.is_authenticated:
-            context['blog_user'] = Profile.objects.get(user=self.request.user)
-        return context
 
-
-class ContactView(FormView):
+class ContactView(GeneralContextMixin, FormView):
     template_name = 'blog/contact.html'
     form_class = ContactForm
     context_object_name = 'form'
@@ -103,10 +92,3 @@ class ContactView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.annotate(posts_count=Count('post'))
-        if self.request.user.is_authenticated:
-            context['blog_user'] = Profile.objects.get(user=self.request.user)
-        return context

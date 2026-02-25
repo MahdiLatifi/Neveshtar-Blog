@@ -82,41 +82,24 @@ def my_jalalidate(value):
     return to_persian_digits(formatted)
 
 
-# ------------------------------------------------------------
-#  Simple inclusion tags
-# ------------------------------------------------------------
-@register.inclusion_tag('blog/includes/categories.html')
-def blog_categories(categories):
-    """Render a list of categories."""
-    return {'categories': categories}
-
-
-@register.inclusion_tag('blog/includes/latest_posts.html')
-def latest_posts():
-    """Show the three most recent published posts."""
-    latest_posts = Post.objects.filter(status='published').order_by('-published_at')[:3]
-    return {'latest_posts': latest_posts}
-
-
 @register.inclusion_tag('blog/includes/featured_posts.html')
 def featured_posts():
     """Show up to two featured published posts."""
-    featured_posts = Post.objects.filter(status='published', is_featured=True)[:2]
+    featured_posts = Post.objects.filter(status='published', is_featured=True)\
+            .select_related('category', 'user')\
+            .order_by('-published_at')[:2]
     return {'featured_posts': featured_posts}
 
 
-@register.inclusion_tag('blog/includes/blog_tags.html')
-def tags():
-    """Render all tags (consider adding a count annotation if needed)."""
-    all_tags = Tag.objects.all()
-    return {'tags': all_tags}
-
-
-@register.inclusion_tag('blog/includes/blog_writer.html')
-def blog_writer():
-    """Show the main writer (profile with is_main_writer=True)."""
-    writer = Profile.objects.filter(is_main_writer=True).first()
-    return {'blog_writer': writer}
+@register.inclusion_tag('blog/includes/sidebar.html')
+def sidebar(blog_user, blog_writer, categories, latest_posts, tags):
+    return {
+        'blog_user': blog_user,
+        'blog_writer': blog_writer,
+        'categories': categories,
+        'latest_posts': latest_posts,
+        'tags': tags
+    }
 
 
 # ------------------------------------------------------------
