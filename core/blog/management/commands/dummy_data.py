@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.core.files import File
 from django.conf import settings
 from faker import Faker
-from random import choice
+from random import choice, sample
 
 from accounts.models import User, Profile, Skill
 from blog.models import Category, Post, Tag
@@ -85,4 +85,4 @@ class Command(BaseCommand):
                     save=True
                 )
 
-            post.tags.set(tags)
+            post.tags.set(sample(tags, 3))
