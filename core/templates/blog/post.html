@@ -29,7 +29,7 @@
                             </div>
                             <span>⏱ <span id="detailReadTime">{{ post.estimated_reading_time|persian_int }}</span> دقیقه مطالعه</span>
                             <span>👁 <span id="detailViews">{{ post.view_count|persian_int }}</span> بازدید</span>
-                            <span>💬 <span id="detailCommentCount">۵</span> نظر</span>
+                            <span>💬 <span id="detailCommentCount">{{ post.all_comments.count|persian_int }}</span> نظر</span>
                         </div>
                     </div>
 
@@ -109,7 +109,7 @@
 
                     <!-- Comments -->
                     <div class="comments-section">
-                        <h3 class="comment-count">💬 <span id="commentsCountLabel">{{ post.all_comments.count }}</span> نظر</h3>
+                        <h3 class="comment-count">💬 <span id="commentsCountLabel">{{ post.all_comments.count|persian_int }}</span> نظر</h3>
                         <div id="commentsList">
                             {% for comment in post.all_comments %}
                                 <div class="comment "><img

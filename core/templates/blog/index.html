@@ -84,21 +84,58 @@
 
                                 <!-- Pagination -->
                                 <nav class="pagination" aria-label="صفحه‌بندی">
-                                    {% if page_obj.has_previous %}
-                                        <a href="?page={{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}" aria-label="صفحه قبل">«</a>
-                                    {% endif %}
+                                    {% with current=page_obj.number total=page_obj.paginator.num_pages %}
 
-                                    {% for i in page_obj.paginator.page_range %}
-                                        {% if page_obj.number == i %}
-                                            <span class="active" aria-current="page">{{ i }}</span>
-                                        {% else %}
-                                            <a href="?page={{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">{{ i }}</a>
+                                        {# Previous #}
+                                        {% if page_obj.has_previous %}
+                                            <a href="?page={{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
+                                               aria-label="Previous">
+                                                «
+                                            </a>
                                         {% endif %}
-                                    {% endfor %}
 
-                                    {% if page_obj.has_next %}
-                                        <a href="?page={{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}" aria-label="صفحه بعد">»</a>
-                                    {% endif %}
+                                        {# First page + left dots #}
+                                        {% if current > 3 %}
+                                            <a href="?page=1{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">1</a>
+                                            {% if current > 4 %}
+                                                <span>...</span>
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {# Sliding window around current page #}
+                                        {% for i in page_obj.paginator.page_range %}
+                                            {% if i >= current|add:"-2" and i <= current|add:"2" %}
+                                                {% if i > 0 and i <= total %}
+                                                    {% if i == current %}
+                                                        <span class="active" aria-current="page">{{ i }}</span>
+                                                    {% else %}
+                                                        <a href="?page={{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
+                                                            {{ i }}
+                                                        </a>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {# Right dots + last page #}
+                                        {% if current < total|add:"-2" %}
+                                            {% if current < total|add:"-3" %}
+                                                <span>...</span>
+                                            {% endif %}
+                                            <a href="?page={{ total }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
+                                                {{ total }}
+                                            </a>
+                                        {% endif %}
+
+                                        {# Next #}
+                                        {% if page_obj.has_next %}
+                                            <a href="?page={{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
+                                               aria-label="Next">
+                                                »
+                                            </a>
+                                        {% endif %}
+
+                                    {% endwith %}
                                 </nav>
                             {% else %}
                                 <div class="no-results">
