@@ -34,8 +34,8 @@ class Command(BaseCommand):
             skills = [Skill.objects.get_or_create(name=word)[0] for word in
                       str(self.faker.sentence(nb_words=5)).split(' ')]
 
-            profile.first_name = str(self.faker.first_name())
-            profile.last_name = str(self.faker.last_name())
+            profile.first_name = "مهدی"
+            profile.last_name = "لطیفی"
 
             image_path = settings.BASE_DIR / f'static/images/main-author.jpg'
 
@@ -61,7 +61,7 @@ class Command(BaseCommand):
             tag, _ = Tag.objects.get_or_create(name=tag_name)
             tags.append(tag)
 
-        for _ in range(options['count'] or 10):
+        for _ in range(options['count'] or 20):
             post = Post.objects.create(
                 title=str(self.faker.sentence(nb_words=8)),
                 content=str(self.faker.paragraph(nb_sentences=50)),
