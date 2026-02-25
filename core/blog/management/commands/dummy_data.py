@@ -46,7 +46,6 @@ class Command(BaseCommand):
                     save=True
                 )
 
-
             profile.description = str(self.faker.paragraph(nb_sentences=5))
             profile.my_story = str(self.faker.paragraph(nb_sentences=50))
             profile.skills.set(skills)
@@ -61,7 +60,6 @@ class Command(BaseCommand):
         for tag_name in tag_list:
             tag, _ = Tag.objects.get_or_create(name=tag_name)
             tags.append(tag)
-
 
         for _ in range(options['count'] or 10):
             post = Post.objects.create(
