@@ -84,12 +84,7 @@
 
                                         {# Previous #}
                                         {% if page_obj.has_previous %}
-                                            <a href="?page=
-
-
-
-
-                                                    {{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
+                                            <a href="?page={{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
                                                aria-label="Previous">
                                                 «
                                             </a>
@@ -110,12 +105,7 @@
                                                     {% if i == current %}
                                                         <span class="active" aria-current="page">{{ i }}</span>
                                                     {% else %}
-                                                        <a href="?page=
-
-
-
-
-                                                                {{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
+                                                        <a href="?page={{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
                                                             {{ i }}
                                                         </a>
                                                     {% endif %}
@@ -128,24 +118,14 @@
                                             {% if current < total|add:"-3" %}
                                                 <span>...</span>
                                             {% endif %}
-                                            <a href="?page=
-
-
-
-
-                                                    {{ total }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
+                                            <a href="?page={{ total }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
                                                 {{ total }}
                                             </a>
                                         {% endif %}
 
                                         {# Next #}
                                         {% if page_obj.has_next %}
-                                            <a href="?page=
-
-
-
-
-                                                    {{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
+                                            <a href="?page={{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
                                                aria-label="Next">
                                                 »
                                             </a>
