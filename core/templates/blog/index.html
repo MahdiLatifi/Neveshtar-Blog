@@ -55,31 +55,27 @@
                         <div id="postsList">
                             {% if posts %}
                                 {% for post in posts %}
-                                    <article class="post-card post-card-horizontal">
-                                        <a href="{% url 'post-detail' slug=post.slug %}" class="post-card-link">
-                                            <div class="post-thumb">
-                                                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                                    <a href="{% url 'post-detail' slug=post.slug %}"
+                                       class="post-card post-card-horizontal">
+                                        <div class="post-thumb"><img
+                                                src="{{ post.image.url }}"
+                                                alt="{{ post.title }}"></div>
+                                        <div class="post-card-body"><span
+                                                class="post-cat">{{ post.category.name }}</span>
+                                            <h3>{{ post.title }}</h3>
+                                            <p>{{ post.content|truncatechars:100|safe }}</p>
+                                            <div class="post-meta"><span class="author"><img
+                                                    src="{{ post.user.image.url }}"
+                                                    alt="">{{ post.user.full_name }}</span><span>📅 {{ post.published_at|my_jalalidate }}</span><span>⏱ {{ post.estimated_reading_time|persian_int }} دقیقه</span>
                                             </div>
-                                            <div class="post-card-body">
-                                                <span class="post-cat">{{ post.category.name }}</span>
-                                                <h3>{{ post.title }}</h3>
-                                                <p>{{ post.content|truncatechars:100|safe }}</p>
-                                                <div class="post-meta">
-                                                    <span class="author">
-                                                        <img src="{{ post.user.image.url }}" alt="">
-                                                        {{ post.user.full_name }}
-                                                    </span>
-                                                    <span>📅 {{ post.published_at|my_jalalidate }}</span>
-                                                    <span>⏱ {{ post.estimated_reading_time|persian_int }} دقیقه</span>
-                                                </div>
-                                                <div class="post-tags">
-                                                    {% for tag in post.tags.all %}
-                                                        <span class="post-tag">#{{ tag.name }}</span>
-                                                    {% endfor %}
-                                                </div>
+                                            <div class="post-tags">
+                                                {% for tag in post.tags.all %}
+                                                    <span class="post-tag">#{{ tag.name }}</span>
+                                                {% endfor %}
                                             </div>
-                                        </a>
-                                    </article>
+                                        </div>
+                                    </a>
+
                                 {% endfor %}
 
                                 <!-- Pagination -->
@@ -88,7 +84,12 @@
 
                                         {# Previous #}
                                         {% if page_obj.has_previous %}
-                                            <a href="?page={{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
+                                            <a href="?page=
+
+
+
+
+                                                    {{ page_obj.previous_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
                                                aria-label="Previous">
                                                 «
                                             </a>
@@ -109,7 +110,12 @@
                                                     {% if i == current %}
                                                         <span class="active" aria-current="page">{{ i }}</span>
                                                     {% else %}
-                                                        <a href="?page={{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
+                                                        <a href="?page=
+
+
+
+
+                                                                {{ i }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
                                                             {{ i }}
                                                         </a>
                                                     {% endif %}
@@ -122,14 +128,24 @@
                                             {% if current < total|add:"-3" %}
                                                 <span>...</span>
                                             {% endif %}
-                                            <a href="?page={{ total }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
+                                            <a href="?page=
+
+
+
+
+                                                    {{ total }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}">
                                                 {{ total }}
                                             </a>
                                         {% endif %}
 
                                         {# Next #}
                                         {% if page_obj.has_next %}
-                                            <a href="?page={{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
+                                            <a href="?page=
+
+
+
+
+                                                    {{ page_obj.next_page_number }}{% if category_query %}&cat={{ category_query }}{% endif %}{% if search_query %}&search={{ search_query }}{% endif %}{% if tag_query %}&tag={{ tag_query }}{% endif %}"
                                                aria-label="Next">
                                                 »
                                             </a>
@@ -138,10 +154,9 @@
                                     {% endwith %}
                                 </nav>
                             {% else %}
-                                <div class="no-results">
-                                    <h3>نتیجه‌ای یافت نشد 😕</h3>
-                                    <p>لطفاً عبارت دیگری را جستجو کنید.</p>
-                                </div>
+                                <div style="text-align:center;padding:60px;color:var(--text-light);"><h3>نتیجه‌ای یافت
+                                    نشد 😕</h3>
+                                    <p>لطفاً عبارت دیگری را جستجو کنید.</p></div>
                             {% endif %}
                         </div>
                     </main>
